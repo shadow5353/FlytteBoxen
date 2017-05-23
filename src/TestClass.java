@@ -3,10 +3,9 @@
  */
 public class TestClass {
     public static void main(String[] args) {
-        System.out.println("top kek smager godt");
+        String userName = System.getProperty("user.name");
 
-
-        System.out.println("gg");
+        System.out.println(userName);
 
     }
 }
