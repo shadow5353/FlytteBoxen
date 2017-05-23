@@ -4,5 +4,9 @@
 public class TestClass {
     public static void main(String[] args) {
         System.out.println("top kek smager godt");
+
+
+        System.out.println("gg");
+
     }
 }
