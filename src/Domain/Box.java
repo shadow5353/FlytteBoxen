@@ -5,6 +5,8 @@ import Tech.Messages;
 
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Box {
@@ -18,18 +20,24 @@ public class Box {
 
     public void createBox(int boxID, int size, BigDecimal price) {
         if (size <= 1 && size >= 6) {
-
-
             try {
-                CallableStatement cl = db.callableStatement("{call insertBox(?, ?, ?)}");
+                boolean exists = boxExists(boxID);
 
-                cl.setInt(1, boxID);
-                cl.setInt(2, size);
-                cl.setBigDecimal(3, price);
+                if(exists) {
 
-                cl.executeUpdate();
+                    CallableStatement cl = db.callableStatement("{call insertBox(?, ?, ?)}");
 
-                messages.infoMessage("Box: " + boxID + " have been created with size: " + size);
+                    cl.setInt(1, boxID);
+                    cl.setInt(2, size);
+                    cl.setBigDecimal(3, price);
+
+                    cl.executeUpdate();
+
+                    messages.infoMessage("Box: " + boxID + " have been created with size: " + size);
+
+                } else {
+                    messages.errorMessage("This box: " + boxID + " already exists!");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -37,5 +45,55 @@ public class Box {
         } else {
             messages.errorMessage("The box size have to be between 1 and 6");
         }
+    }
+
+    public void removeBox(int boxID) {
+        try {
+            CallableStatement cl = db.callableStatement("{call delete_Box(?)");
+
+            cl.setInt(1, boxID);
+
+            cl.executeUpdate();
+
+            messages.infoMessage("Box number: " + boxID + " have been removed!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBox(int boxID, int boxSize, BigDecimal price) {
+        try {
+            CallableStatement cl = db.callableStatement("{call update_Box(?, ?, ?");
+
+            cl.setInt(1, boxID);
+            cl.setInt(2, boxSize);
+            cl.setBigDecimal(3, price);
+
+            cl.executeUpdate();
+
+            messages.infoMessage("Box: " + boxID + " have been updated!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean boxExists(int boxID) {
+        try {
+            PreparedStatement ps = db.preparedStatement("SELECT * FROM tbl_Box WHERE fld_BoxId = ?");
+
+            ps.setInt(1, boxID);
+
+            ResultSet rs = ps.executeQuery();
+
+            if(!(rs.next())) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

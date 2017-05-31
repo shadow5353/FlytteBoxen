@@ -17,7 +17,7 @@ public class Customer {
 
     public void createCustomer(String name, String address, int zip, String town, String phone, String email) {
         try {
-            CallableStatement cl = db.callableStatement("{call createCustomer(?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cl = db.callableStatement("{call add_Customer(?, ?, ?, ?, ?, ?, ?)}");
 
             cl.setString(1, name);
             cl.setString(2, address);
@@ -33,4 +33,40 @@ public class Customer {
             e.printStackTrace();
         }
     }
+
+    public void removeCustomer(int customerID) {
+        try {
+            CallableStatement cl = db.callableStatement("{call delete_Customer(?)}");
+
+            cl.setInt(1, customerID);
+
+            cl.executeUpdate();
+
+            messages.infoMessage("Customer with ID: " + customerID + " have been remove!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCustomer(int customerID, String name, String address, int zip, String town, String phone, String email) {
+        try {
+            CallableStatement cl = db.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?, ?}");
+
+            cl.setInt(1, customerID);
+            cl.setString(2, name);
+            cl.setString(3, address);
+            cl.setInt(4, zip);
+            cl.setString(5, town);
+            cl.setString(6, phone);
+            cl.setString(7, email);
+
+            cl.executeUpdate();
+
+            messages.infoMessage("Customer " + name + " have been updated!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

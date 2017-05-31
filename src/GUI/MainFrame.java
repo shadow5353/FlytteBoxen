@@ -7,10 +7,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem createCustomerItem;
     private javax.swing.JMenuItem createOrderItem;
     private javax.swing.JMenu customerMenu;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel headingLabel;
+    private javax.swing.JLabel amountBoxLabel;
+    private javax.swing.JLabel amountOccupiedLabel;
+    private javax.swing.JLabel amountFreeLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu orderMenu;
@@ -28,10 +28,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        headingLabel = new javax.swing.JLabel();
+        amountBoxLabel = new javax.swing.JLabel();
+        amountOccupiedLabel = new javax.swing.JLabel();
+        amountFreeLabel = new javax.swing.JLabel();
         menu = new javax.swing.JMenuBar();
         customerMenu = new javax.swing.JMenu();
         createCustomerItem = new javax.swing.JMenuItem();
@@ -46,17 +46,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
-        jLabel1.setText("Statestik");
+        headingLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
+        headingLabel.setText("Statestik");
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("Antal Bokse: 0");
+        amountBoxLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        amountBoxLabel.setText("Antal Bokse: 0");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Antal Optaget: 0");
+        amountOccupiedLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        amountOccupiedLabel.setText("Antal Optaget: 0");
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Antal Frie: 0");
+        amountFreeLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        amountFreeLabel.setText("Antal Frie: 0");
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -64,26 +64,26 @@ public class MainFrame extends javax.swing.JFrame {
                 mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addContainerGap(111, Short.MAX_VALUE)
-                                .addComponent(jLabel2)
+                                .addComponent(amountBoxLabel)
                                 .addGap(74, 74, 74)
-                                .addComponent(jLabel3)
+                                .addComponent(amountOccupiedLabel)
                                 .addGap(102, 102, 102)
-                                .addComponent(jLabel4)
+                                .addComponent(amountFreeLabel)
                                 .addContainerGap(111, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
+                                .addComponent(headingLabel)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
                 mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(headingLabel)
                                 .addGap(119, 119, 119)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel4))
+                                        .addComponent(amountOccupiedLabel)
+                                        .addComponent(amountBoxLabel)
+                                        .addComponent(amountFreeLabel))
                                 .addContainerGap(284, Short.MAX_VALUE))
         );
 
