@@ -18,18 +18,19 @@ public class Box {
         messages = new Messages();
     }
 
-    public void createBox(int boxID, int size, BigDecimal price) {
+    public void createBox(int boxID, int size, BigDecimal price, int hallID) {
         if (size <= 1 && size >= 6) {
             try {
                 boolean exists = boxExists(boxID);
 
                 if(exists) {
 
-                    CallableStatement cl = db.callableStatement("{call insertBox(?, ?, ?)}");
+                    CallableStatement cl = db.callableStatement("{call insertBox(?, ?, ?, ?)}");
 
                     cl.setInt(1, boxID);
                     cl.setInt(2, size);
                     cl.setBigDecimal(3, price);
+                    cl.setInt(4, hallID);
 
                     cl.executeUpdate();
 
