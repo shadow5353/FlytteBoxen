@@ -4,6 +4,8 @@ import Tech.DBFacade;
 import Tech.Messages;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer {
@@ -67,6 +69,26 @@ public class Customer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getName(int customerID) {
+        try {
+            PreparedStatement ps = db.preparedStatement("SELECT fld_Name FROM tbl_Customer WHERE fld_CustomerId = ?");
+
+            ps.setInt(1, customerID);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("fld_Name");
+
+                return name;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }
