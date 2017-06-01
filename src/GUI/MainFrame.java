@@ -1,5 +1,7 @@
 package GUI;
 
+import javax.swing.*;
+
 public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenu boxMenu;
     private javax.swing.JMenuItem checkAvailabilityItem;
@@ -23,6 +25,12 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+
+        ImageIcon img = new ImageIcon("src/Pictures/tsb.jpg");
+
+        this.setIconImage(img.getImage());
+
+        this.setTitle("Flytteboxen");
     }
 
     private void initComponents() {
