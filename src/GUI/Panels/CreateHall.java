@@ -1,6 +1,10 @@
 package GUI.Panels;
 
+import Tech.Messages;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CreateHall extends JPanel {
     private JLabel addressLabel, postalCodeLabel, hallNumberLabel, headingLabel, infoHeadingLabel, infoLabel, descriptionLabel, extraInfoHeadingLabel;
@@ -8,13 +12,74 @@ public class CreateHall extends JPanel {
     private JTextField hallNumberField, postalCodeField, addressField;
     private JTextArea descriptionField;
     private JScrollPane scrollPanelTextField;
+    private Messages messages;
 
     /**
      * Creates new form CreateHall
      */
     public CreateHall() {
         initComponents();
+        createHall();
     }
+
+    private void createHall() {
+        createHallButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (hallNumberField.getText().isEmpty()) {
+                    messages.errorMessage("Du skal indtaste et hal nummer!");
+                } else {
+                    try {
+                        int hallNumber = Integer.parseInt(hallNumberField.getText());
+                        String description = getDescription();
+                        String addres = getAddress();
+                        int postalCode = getPostalCode();
+
+                        // Todo add hall class implementation
+
+                    } catch (NumberFormatException ex) {
+                        messages.errorMessage("Hal nummer skal være et tal!");
+                        hallNumberField.setText("");
+                    }
+                }
+            }
+        });
+    }
+
+    private String getDescription() {
+        if(!(descriptionField.getText().isEmpty())) {
+            return descriptionField.getText();
+        } else {
+            return null;
+        }
+    }
+
+    private int getPostalCode() {
+        try {
+            if(!(postalCodeField.getText().isEmpty())) {
+                int postalCode = Integer.parseInt(postalCodeField.getText());
+
+                return postalCode;
+            }
+            else {
+                return 0;
+            }
+        } catch (NumberFormatException e) {
+            messages.errorMessage("Post Nummer skal være et tal!");
+        }
+
+        return 0;
+    }
+
+    private String getAddress() {
+        if (!(addressField.getText().isEmpty())) {
+            return addressField.getText();
+        } else {
+            return null;
+        }
+    }
+
+
 
     private void initComponents() {
         headingLabel = new JLabel();
@@ -31,6 +96,7 @@ public class CreateHall extends JPanel {
         postalCodeField = new JTextField();
         createHallButton = new JButton();
         infoLabel = new JLabel();
+        messages = new Messages();
 
         headingLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
         headingLabel.setText("Opret Hal");
