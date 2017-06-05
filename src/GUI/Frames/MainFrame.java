@@ -1,17 +1,23 @@
 package GUI.Frames;
 
+import GUI.Panels.CreateHall;
+import GUI.Panels.CreateOrder;
+import GUI.Panels.MainPanel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class MainFrame extends javax.swing.JFrame {
-    private GridBagLayout grid;
+    private CardLayout cardLayout;
+    private JPanel cardPanel, mainPanel, createHallPanel, createOrderPanel;
     private JMenuBar menu;
-    private JPanel dynamicPanel, mainPanel;
-    private JMenu orderMenu, customerMenu, boxMenu, hallMenu;
+    private JMenu orderMenu, customerMenu, boxMenu, hallMenu, homeMenu;
     private JMenuItem showBoxesItem, showCustomerItem, showOrdersItem, checkAvailabilityItem, createBoxItem,
-            createCustomerItem, createOrderItem, createHallItem, showHallItem;
+            createCustomerItem, createOrderItem, createHallItem, showHallItem, homePageItem, exitItem;
 
     /**
      * Creates new form MainFrame
@@ -26,20 +32,37 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    private void setDynamicPanel() {
-        dynamicPanel.setLayout(grid);
+    private void setCardLayout() {
+        cardPanel.setLayout(cardLayout);
 
-        GridBagConstraints gc = new GridBagConstraints();
-        gc.gridx = 0;
-        gc.gridy = 0;
+        cardPanel.add(mainPanel, "main");
+        cardPanel.add(createHallPanel, "createHall");
+        cardPanel.add(createOrderPanel, "createOrder");
+    }
 
+    private void setPanels() {
+        cardPanel = new JPanel();
+        mainPanel = new MainPanel();
+        createHallPanel = new CreateHall();
+        createOrderPanel = new CreateOrder();
+    }
+
+    private void actionListeners() {
+        createOrderItem.addActionListener(new ChangePanel("createOrder"));
+        createHallItem.addActionListener(new ChangePanel("createHall"));
+        homePageItem.addActionListener(new ChangePanel("main"));
+
+        exitItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
 
     }
 
     private void initComponents() {
-        grid = new GridBagLayout();
-        mainPanel = new JPanel();
-        dynamicPanel = new JPanel();
+        cardLayout = new CardLayout();
         menu = new JMenuBar();
         customerMenu = new JMenu();
         createCustomerItem = new JMenuItem();
@@ -54,6 +77,12 @@ public class MainFrame extends javax.swing.JFrame {
         hallMenu = new JMenu();
         createHallItem = new JMenuItem();
         showHallItem = new JMenuItem();
+        homeMenu = new JMenu();
+        homePageItem = new JMenuItem();
+        exitItem = new JMenuItem();
+
+        setPanels();
+        setCardLayout();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +91,20 @@ public class MainFrame extends javax.swing.JFrame {
         this.setIconImage(img.getImage());
 
         this.setTitle("Flytteboxen");
+
+        homeMenu.setText("Hjem");
+
+        homePageItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
+        homePageItem.setText("Hjem");
+
+        homeMenu.add(homePageItem);
+
+        exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+        exitItem.setText("Luk Program");
+
+        homeMenu.add(exitItem);
+
+        menu.add(homeMenu);
 
         customerMenu.setText("Kunde");
 
@@ -86,7 +129,7 @@ public class MainFrame extends javax.swing.JFrame {
         showBoxesItem.setText("Vis alle Bokse");
         boxMenu.add(showBoxesItem);
 
-        checkAvailabilityItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        checkAvailabilityItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
         checkAvailabilityItem.setText("Tjek Tilgængelighed");
         boxMenu.add(checkAvailabilityItem);
 
@@ -122,17 +165,22 @@ public class MainFrame extends javax.swing.JFrame {
 
         setJMenuBar(menu);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(cardPanel);
+        actionListeners();
 
         pack();
+    }
+
+    class ChangePanel implements ActionListener {
+        String panelShow;
+
+        public ChangePanel(String panelShow) {
+            this.panelShow = panelShow;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cardLayout.show(cardPanel, this.panelShow);
+        }
     }
 }
