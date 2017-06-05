@@ -1,4 +1,4 @@
-import GUI.MainFrame;
+import GUI.Frames.MainFrame;
 
 /**
  * Created by Jacob on 23-05-2017.

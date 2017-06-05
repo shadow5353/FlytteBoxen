@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Frames;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        ImageIcon img = new ImageIcon("src/Pictures/tsb.jpg");
+        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
 
         this.setIconImage(img.getImage());
 
