@@ -1,99 +1,67 @@
 package GUI;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 public class MainFrame extends javax.swing.JFrame {
-    private javax.swing.JMenu boxMenu;
-    private javax.swing.JMenuItem checkAvailabilityItem;
-    private javax.swing.JMenuItem createBoxItem;
-    private javax.swing.JMenuItem createCustomerItem;
-    private javax.swing.JMenuItem createOrderItem;
-    private javax.swing.JMenu customerMenu;
-    private javax.swing.JLabel headingLabel;
-    private javax.swing.JLabel amountBoxLabel;
-    private javax.swing.JLabel amountOccupiedLabel;
-    private javax.swing.JLabel amountFreeLabel;
-    private javax.swing.JPanel mainPanel;
-    private javax.swing.JMenuBar menu;
-    private javax.swing.JMenu orderMenu;
-    private javax.swing.JMenuItem showBoxesItem;
-    private javax.swing.JMenuItem showCustomerItem;
-    private javax.swing.JMenuItem showOrdersItem;
+    private GridBagLayout grid;
+    private JMenuBar menu;
+    private JPanel dynamicPanel, mainPanel;
+    private JMenu orderMenu, customerMenu, boxMenu, hallMenu;
+    private JMenuItem showBoxesItem, showCustomerItem, showOrdersItem, checkAvailabilityItem, createBoxItem,
+            createCustomerItem, createOrderItem, createHallItem, showHallItem;
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
         initComponents();
+    }
+
+    private void setDynamicPanel() {
+        dynamicPanel.setLayout(grid);
+
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.gridx = 0;
+        gc.gridy = 0;
+
+
+    }
+
+    private void initComponents() {
+        grid = new GridBagLayout();
+        mainPanel = new JPanel();
+        dynamicPanel = new JPanel();
+        menu = new JMenuBar();
+        customerMenu = new JMenu();
+        createCustomerItem = new JMenuItem();
+        showCustomerItem = new JMenuItem();
+        boxMenu = new JMenu();
+        createBoxItem = new JMenuItem();
+        showBoxesItem = new JMenuItem();
+        checkAvailabilityItem = new JMenuItem();
+        orderMenu = new JMenu();
+        createOrderItem = new JMenuItem();
+        showOrdersItem = new JMenuItem();
+        hallMenu = new JMenu();
+        createHallItem = new JMenuItem();
+        showHallItem = new JMenuItem();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         ImageIcon img = new ImageIcon("src/Pictures/tsb.jpg");
 
         this.setIconImage(img.getImage());
 
         this.setTitle("Flytteboxen");
-    }
-
-    private void initComponents() {
-
-        mainPanel = new javax.swing.JPanel();
-        headingLabel = new javax.swing.JLabel();
-        amountBoxLabel = new javax.swing.JLabel();
-        amountOccupiedLabel = new javax.swing.JLabel();
-        amountFreeLabel = new javax.swing.JLabel();
-        menu = new javax.swing.JMenuBar();
-        customerMenu = new javax.swing.JMenu();
-        createCustomerItem = new javax.swing.JMenuItem();
-        showCustomerItem = new javax.swing.JMenuItem();
-        boxMenu = new javax.swing.JMenu();
-        createBoxItem = new javax.swing.JMenuItem();
-        showBoxesItem = new javax.swing.JMenuItem();
-        checkAvailabilityItem = new javax.swing.JMenuItem();
-        orderMenu = new javax.swing.JMenu();
-        createOrderItem = new javax.swing.JMenuItem();
-        showOrdersItem = new javax.swing.JMenuItem();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        headingLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
-        headingLabel.setText("Statestik");
-
-        amountBoxLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        amountBoxLabel.setText("Antal Bokse: 0");
-
-        amountOccupiedLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        amountOccupiedLabel.setText("Antal Optaget: 0");
-
-        amountFreeLabel.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        amountFreeLabel.setText("Antal Frie: 0");
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addContainerGap(111, Short.MAX_VALUE)
-                                .addComponent(amountBoxLabel)
-                                .addGap(74, 74, 74)
-                                .addComponent(amountOccupiedLabel)
-                                .addGap(102, 102, 102)
-                                .addComponent(amountFreeLabel)
-                                .addContainerGap(111, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(headingLabel)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        mainPanelLayout.setVerticalGroup(
-                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(headingLabel)
-                                .addGap(119, 119, 119)
-                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(amountOccupiedLabel)
-                                        .addComponent(amountBoxLabel)
-                                        .addComponent(amountFreeLabel))
-                                .addContainerGap(284, Short.MAX_VALUE))
-        );
 
         customerMenu.setText("Kunde");
 
@@ -123,6 +91,20 @@ public class MainFrame extends javax.swing.JFrame {
         boxMenu.add(checkAvailabilityItem);
 
         menu.add(boxMenu);
+
+        hallMenu.setText("Hal");
+
+        createHallItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
+        createHallItem.setText("Opret Hal");
+
+        hallMenu.add(createHallItem);
+
+        showHallItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK));
+        showHallItem.setText("Vis alle Haller");
+
+        hallMenu.add(showHallItem);
+
+        menu.add(hallMenu);
 
         orderMenu.setText("Bestilling");
 
