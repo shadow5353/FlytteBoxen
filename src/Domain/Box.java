@@ -4,10 +4,7 @@ import Tech.DBFacade;
 import Tech.Messages;
 
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Box {
     private DBFacade db;
@@ -98,4 +95,19 @@ public class Box {
 
         return false;
     }
+
+//    private boolean boxAvailable(int boxID, Date date) {
+//        if(boxExists(boxID)) {
+//            try {
+//
+//
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            messages.errorMessage("Boks Nummer: " + boxID + " findes ikke!");
+//        }
+//
+//        return false;
+//    }
 }

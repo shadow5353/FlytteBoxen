@@ -1,35 +1,59 @@
 package GUI.Frames;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.sql.Date;
 
 /**
  * Created by Jacob on 06-06-2017.
  */
 public class AvailableBoxes extends JFrame {
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private JLabel headingLabel;
+    private JScrollPane scrollPane;
+    private JTable boxesTable;
+    private int size;
+    private Date date;
 
     /**
-     * Creates new form createOrderStep2
+     * Creates new form AvailableBoxes
      */
-    public AvailableBoxes() {
+    public AvailableBoxes(Date date, int size) {
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
+        this.size = size;
+        this.date = date;
+
         initComponents();
+    }
+
+    private void generateRows() {
+
     }
 
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        headingLabel = new javax.swing.JLabel();
+        scrollPane = new javax.swing.JScrollPane();
+        boxesTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
-        jLabel1.setText("Tilgængelige Bokse i størrelse [S]");
+        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        this.setIconImage(img.getImage());
+
+        this.setTitle("Find boks i størrelse " + size);
+
+        headingLabel.setFont(new Font("Dialog", 1, 25));
+        headingLabel.setText("Tilgængelige Bokse i størrelse " + size);
+
+        boxesTable.setAutoCreateRowSorter(true);
+        boxesTable.setModel(new DefaultTableModel(
                 new Object [][] {
                         {null, null, null, null, null, null},
                         {null, null, null, null, null, null},
@@ -41,7 +65,7 @@ public class AvailableBoxes extends JFrame {
                 }
         ) {
             Class[] types = new Class [] {
-                    java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                    Integer.class, Integer.class, Object.class, Integer.class, Integer.class, Object.class
             };
             boolean[] canEdit = new boolean [] {
                     false, false, false, false, false, false
@@ -55,33 +79,33 @@ public class AvailableBoxes extends JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        scrollPane.setViewportView(boxesTable);
+        if (boxesTable.getColumnModel().getColumnCount() > 0) {
+            boxesTable.getColumnModel().getColumn(0).setResizable(false);
+            boxesTable.getColumnModel().getColumn(1).setResizable(false);
+            boxesTable.getColumnModel().getColumn(2).setResizable(false);
+            boxesTable.getColumnModel().getColumn(3).setResizable(false);
+            boxesTable.getColumnModel().getColumn(4).setResizable(false);
+            boxesTable.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                        .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
+                                .addComponent(headingLabel)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
-                                .addComponent(jLabel1)
+                                .addComponent(headingLabel)
                                 .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
     }
