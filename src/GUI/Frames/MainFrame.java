@@ -124,12 +124,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         customerMenu.setText("Kunde");
 
-        addCustomerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
+        addCustomerItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_MASK));
         addCustomerItem.setText("Opret Kunde");
 
         customerMenu.add(addCustomerItem);
 
-        customerOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        customerOverviewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
         customerOverviewItem.setText("Vis alle Kunder");
         customerMenu.add(customerOverviewItem);
 
@@ -137,11 +137,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         boxMenu.setText("Boks");
 
-        addBoxItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        addBoxItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
         addBoxItem.setText("Opret Boks");
         boxMenu.add(addBoxItem);
 
-        boxOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        boxOverviewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
         boxOverviewItem.setText("Vis alle Bokse");
         boxMenu.add(boxOverviewItem);
 
@@ -163,12 +163,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         orderMenu.setText("Bestilling");
 
-        createOrderItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        createOrderItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         createOrderItem.setText("Opret Bestilling");
 
         orderMenu.add(createOrderItem);
 
-        orderOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        orderOverviewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
         orderOverviewItem.setText("Vis alle Bestillinger");
 
         orderMenu.add(orderOverviewItem);
@@ -180,7 +180,6 @@ public class MainFrame extends javax.swing.JFrame {
         add(cardPanel);
         actionListeners();
 
-        pack();
     }
 
     class ChangePanel implements ActionListener {

@@ -1,5 +1,6 @@
 package GUI.Panels;
 
+import Domain.Hall;
 import Tech.Messages;
 
 import javax.swing.*;
@@ -32,10 +33,13 @@ public class CreateHall extends JPanel {
                     try {
                         int hallNumber = Integer.parseInt(hallNumberField.getText());
                         String description = getDescription();
-                        String addres = getAddress();
+                        String address = getAddress();
                         int postalCode = getPostalCode();
 
                         // Todo add hall class implementation
+                        Hall hall = new Hall();
+
+                        hall.createHall(hallNumber, description, postalCode, address);
 
                     } catch (NumberFormatException ex) {
                         messages.errorMessage("Hal nummer skal være et tal!");
