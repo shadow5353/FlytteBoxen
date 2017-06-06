@@ -1,55 +1,35 @@
 package GUI.Frames;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.Date;
 
 /**
  * Created by Jacob on 06-06-2017.
  */
 public class AvailableBoxes extends JFrame {
-    private JLabel headingLabel;
-    private JScrollPane scrollPane;
-    private JTable boxesTable;
-    private Date date;
-    private int size;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
 
     /**
-     * Creates new form AvailableBoxes
+     * Creates new form createOrderStep2
      */
-    public AvailableBoxes(Date date, int size) {
-        int inset = 50;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset,
-                screenSize.width - inset * 2,
-                screenSize.height - inset * 2);
-
-        this.date = date;
-        this.size = size;
-
+    public AvailableBoxes() {
         initComponents();
     }
 
     private void initComponents() {
 
-        headingLabel = new JLabel();
-        scrollPane = new JScrollPane();
-        boxesTable = new JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
-        this.setIconImage(img.getImage());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        this.setTitle("Vælge boks for størrelse " + size);
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
+        jLabel1.setText("Tilgængelige Bokse i størrelse [S]");
 
-        headingLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
-        headingLabel.setText("Tilgængelige Bokse i størrelse " + size);
-
-        boxesTable.setAutoCreateRowSorter(true);
-        boxesTable.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setAutoCreateRowSorter(true);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                         {null, null, null, null, null, null},
                         {null, null, null, null, null, null},
@@ -75,33 +55,35 @@ public class AvailableBoxes extends JFrame {
                 return canEdit [columnIndex];
             }
         });
-        scrollPane.setViewportView(boxesTable);
-        if (boxesTable.getColumnModel().getColumnCount() > 0) {
-            boxesTable.getColumnModel().getColumn(0).setResizable(false);
-            boxesTable.getColumnModel().getColumn(1).setResizable(false);
-            boxesTable.getColumnModel().getColumn(2).setResizable(false);
-            boxesTable.getColumnModel().getColumn(3).setResizable(false);
-            boxesTable.getColumnModel().getColumn(4).setResizable(false);
-            boxesTable.getColumnModel().getColumn(5).setResizable(false);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(headingLabel)
+                                .addComponent(jLabel1)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap(25, Short.MAX_VALUE)
-                                .addComponent(headingLabel)
+                                .addGap(25, 25, 25)
+                                .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
     }
 }
+
