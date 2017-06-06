@@ -1,8 +1,6 @@
 package GUI.Frames;
 
-import GUI.Panels.CreateHall;
-import GUI.Panels.CreateOrder;
-import GUI.Panels.MainPanel;
+import GUI.Panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +11,12 @@ import java.awt.event.KeyEvent;
 
 public class MainFrame extends javax.swing.JFrame {
     private CardLayout cardLayout;
-    private JPanel cardPanel, mainPanel, createHallPanel, createOrderPanel;
+    private JPanel cardPanel, mainPanel, createHallPanel, createOrderPanel, addBoxPanel, addCustomerPanel, boxOverviewPanel,
+            customerOverviewPanel, hallOverviewPanel, orderOverviewPanel;
     private JMenuBar menu;
     private JMenu orderMenu, customerMenu, boxMenu, hallMenu, homeMenu;
-    private JMenuItem showBoxesItem, showCustomerItem, showOrdersItem, checkAvailabilityItem, createBoxItem,
-            createCustomerItem, createOrderItem, createHallItem, showHallItem, homePageItem, exitItem;
+    private JMenuItem boxOverviewItem, customerOverviewItem, orderOverviewItem, addBoxItem,
+            addCustomerItem, createOrderItem, createHallItem, hallOverviewItem, homePageItem, exitItem;
 
     /**
      * Creates new form MainFrame
@@ -38,6 +37,12 @@ public class MainFrame extends javax.swing.JFrame {
         cardPanel.add(mainPanel, "main");
         cardPanel.add(createHallPanel, "createHall");
         cardPanel.add(createOrderPanel, "createOrder");
+        cardPanel.add(addBoxPanel, "addBox");
+        cardPanel.add(addCustomerPanel, "addCustomer");
+        cardPanel.add(boxOverviewPanel, "boxOverview");
+        cardPanel.add(customerOverviewPanel, "customerOverview");
+        cardPanel.add(hallOverviewPanel, "hallOverview");
+        cardPanel.add(orderOverviewPanel, "orderOverview");
     }
 
     private void setPanels() {
@@ -45,12 +50,24 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new MainPanel();
         createHallPanel = new CreateHall();
         createOrderPanel = new CreateOrder();
+        addBoxPanel = new AddBox();
+        addCustomerPanel = new AddCustomer();
+        boxOverviewPanel = new BoxOverview();
+        customerOverviewPanel = new CustomerOverview();
+        hallOverviewPanel = new HallOverview();
+        orderOverviewPanel = new OrderOverview();
     }
 
     private void actionListeners() {
         createOrderItem.addActionListener(new ChangePanel("createOrder"));
         createHallItem.addActionListener(new ChangePanel("createHall"));
         homePageItem.addActionListener(new ChangePanel("main"));
+        addBoxItem.addActionListener(new ChangePanel("addBox"));
+        addCustomerItem.addActionListener(new ChangePanel("addCustomer"));
+        boxOverviewItem.addActionListener(new ChangePanel("boxOverview"));
+        customerOverviewItem.addActionListener(new ChangePanel("customerOverview"));
+        hallOverviewItem.addActionListener(new ChangePanel("hallOverview"));
+        orderOverviewItem.addActionListener(new ChangePanel("orderOverview"));
 
         exitItem.addActionListener(new ActionListener() {
             @Override
@@ -65,18 +82,17 @@ public class MainFrame extends javax.swing.JFrame {
         cardLayout = new CardLayout();
         menu = new JMenuBar();
         customerMenu = new JMenu();
-        createCustomerItem = new JMenuItem();
-        showCustomerItem = new JMenuItem();
+        addCustomerItem = new JMenuItem();
+        customerOverviewItem = new JMenuItem();
         boxMenu = new JMenu();
-        createBoxItem = new JMenuItem();
-        showBoxesItem = new JMenuItem();
-        checkAvailabilityItem = new JMenuItem();
+        addBoxItem = new JMenuItem();
+        boxOverviewItem = new JMenuItem();
         orderMenu = new JMenu();
         createOrderItem = new JMenuItem();
-        showOrdersItem = new JMenuItem();
+        orderOverviewItem = new JMenuItem();
         hallMenu = new JMenu();
         createHallItem = new JMenuItem();
-        showHallItem = new JMenuItem();
+        hallOverviewItem = new JMenuItem();
         homeMenu = new JMenu();
         homePageItem = new JMenuItem();
         exitItem = new JMenuItem();
@@ -108,30 +124,26 @@ public class MainFrame extends javax.swing.JFrame {
 
         customerMenu.setText("Kunde");
 
-        createCustomerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
-        createCustomerItem.setText("Opret Kunde");
+        addCustomerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
+        addCustomerItem.setText("Opret Kunde");
 
-        customerMenu.add(createCustomerItem);
+        customerMenu.add(addCustomerItem);
 
-        showCustomerItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        showCustomerItem.setText("Vis alle Kunder");
-        customerMenu.add(showCustomerItem);
+        customerOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        customerOverviewItem.setText("Vis alle Kunder");
+        customerMenu.add(customerOverviewItem);
 
         menu.add(customerMenu);
 
         boxMenu.setText("Boks");
 
-        createBoxItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        createBoxItem.setText("Opret Boks");
-        boxMenu.add(createBoxItem);
+        addBoxItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        addBoxItem.setText("Opret Boks");
+        boxMenu.add(addBoxItem);
 
-        showBoxesItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        showBoxesItem.setText("Vis alle Bokse");
-        boxMenu.add(showBoxesItem);
-
-        checkAvailabilityItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
-        checkAvailabilityItem.setText("Tjek Tilgængelighed");
-        boxMenu.add(checkAvailabilityItem);
+        boxOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        boxOverviewItem.setText("Vis alle Bokse");
+        boxMenu.add(boxOverviewItem);
 
         menu.add(boxMenu);
 
@@ -142,10 +154,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         hallMenu.add(createHallItem);
 
-        showHallItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK));
-        showHallItem.setText("Vis alle Haller");
+        hallOverviewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.SHIFT_MASK));
+        hallOverviewItem.setText("Vis alle Haller");
 
-        hallMenu.add(showHallItem);
+        hallMenu.add(hallOverviewItem);
 
         menu.add(hallMenu);
 
@@ -156,10 +168,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         orderMenu.add(createOrderItem);
 
-        showOrdersItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        showOrdersItem.setText("Vis alle Bestillinger");
+        orderOverviewItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        orderOverviewItem.setText("Vis alle Bestillinger");
 
-        orderMenu.add(showOrdersItem);
+        orderMenu.add(orderOverviewItem);
 
         menu.add(orderMenu);
 
