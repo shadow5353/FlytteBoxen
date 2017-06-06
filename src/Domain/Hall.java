@@ -34,6 +34,7 @@ public class Hall {
 
                 if (rows == 1) {
                     messages.infoMessage("Hal Nummer: " + hallID + " er blevet oprettet!");
+
                 } else {
                     messages.errorMessage("Der skete en fejl med oprettelsen af hal nummer: " + hallID + "!");
                 }
@@ -47,7 +48,7 @@ public class Hall {
 
     private boolean checkExists(int hallID) {
         try {
-            PreparedStatement ps = db.preparedStatement("SELECT * FROM tbl_Hall WHERE fldHallId = ?");
+            PreparedStatement ps = db.preparedStatement("SELECT * FROM tbl_Hall WHERE fld_HallId = ?");
 
             ps.setInt(1, hallID);
 

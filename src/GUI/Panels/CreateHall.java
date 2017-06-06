@@ -36,10 +36,14 @@ public class CreateHall extends JPanel {
                         String address = getAddress();
                         int postalCode = getPostalCode();
 
-                        // Todo add hall class implementation
                         Hall hall = new Hall();
 
                         hall.createHall(hallNumber, description, postalCode, address);
+
+                        hallNumberField.setText("");
+                        descriptionField.setText("");
+                        postalCodeField.setText("");
+                        addressField.setText("");
 
                     } catch (NumberFormatException ex) {
                         messages.errorMessage("Hal nummer skal være et tal!");
