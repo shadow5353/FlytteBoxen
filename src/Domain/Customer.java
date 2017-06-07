@@ -17,16 +17,15 @@ public class Customer {
         messages = new Messages();
     }
 
-    public void createCustomer(String name, String address, int zip, String town, String phone, String email) {
+    public void createCustomer(String name, String address, int zip, String phone, String email) {
         try {
-            CallableStatement cl = db.callableStatement("{call add_Customer(?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cl = db.callableStatement("{call add_Customer(?, ?, ?, ?, ?, ?)}");
 
             cl.setString(1, name);
             cl.setString(2, address);
             cl.setInt(3, zip);
-            cl.setString(4, town);
-            cl.setString(5, phone);
-            cl.setString(6, email);
+            cl.setString(4, phone);
+            cl.setString(5, email);
 
             cl.executeUpdate();
 
@@ -89,6 +88,28 @@ public class Customer {
         }
 
         return null;
+    }
+
+    public int getCustomerID(String email) {
+        try {
+            PreparedStatement ps = db.preparedStatement("SELECT fld_CustomerID FROM tbl_Customer WHERE fld_Email = ?");
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int customerID = rs.getInt("fld_CustomerID");
+
+                return customerID;
+            } else {
+                messages.errorMessage("Denne kunde findes ikke!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 }
