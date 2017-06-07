@@ -1,8 +1,11 @@
 package GUI.Panels;
 
 
+import Domain.Hall;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 
 public class HallOverview extends javax.swing.JPanel {
 
@@ -65,13 +68,18 @@ public class HallOverview extends javax.swing.JPanel {
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                try {
+                    hallOverviewTable.print();
+                } catch (PrinterException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         exportTextFileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 //TODO
             }
         });
@@ -86,7 +94,8 @@ public class HallOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                Hall hall = new Hall();
+                //TODO Delete hall method
             }
         });
 

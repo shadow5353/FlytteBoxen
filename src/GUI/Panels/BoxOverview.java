@@ -1,7 +1,10 @@
 package GUI.Panels;
 
+import Domain.Box;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 
 public class BoxOverview extends javax.swing.JPanel {
 
@@ -64,7 +67,11 @@ public class BoxOverview extends javax.swing.JPanel {
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                try {
+                    boksOverviewTable.print();
+                } catch (PrinterException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -78,6 +85,7 @@ public class BoxOverview extends javax.swing.JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Box box = new Box();
                 //TODO
             }
         });
@@ -85,7 +93,8 @@ public class BoxOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                Box box = new Box();
+                box.removeBox(boksOverviewTable.getSelectedRow());
             }
         });
 

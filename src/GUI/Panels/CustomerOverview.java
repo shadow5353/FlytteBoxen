@@ -1,7 +1,10 @@
 package GUI.Panels;
 
+import Domain.Customer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 
 public class CustomerOverview extends javax.swing.JPanel {
 
@@ -64,7 +67,11 @@ public class CustomerOverview extends javax.swing.JPanel {
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                try {
+                    customerTable.print();
+                } catch (PrinterException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -85,7 +92,9 @@ public class CustomerOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                Customer cust = new Customer();
+                cust.removeCustomer(customerTable.getSelectedRow());
+                //TODO Er du sikker?
             }
         });
 

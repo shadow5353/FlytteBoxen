@@ -1,7 +1,10 @@
 package GUI.Panels;
 
+import Domain.Box;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class AddBox extends javax.swing.JPanel {
 
@@ -55,7 +58,12 @@ public class AddBox extends javax.swing.JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                Box Box = new Box();
+                Box.createBox(Integer.parseInt(boksTextField.getText()),
+                             Integer.parseInt(sizeComboBox.getSelectedItem().toString()),
+                             new BigDecimal(priceTextField.getText()),
+                             Integer.parseInt(hallTextField.toString()),
+                             Integer.parseInt(nearestGateTextField.toString()));
             }
         });
 
