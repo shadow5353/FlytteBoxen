@@ -1,5 +1,7 @@
 package GUI.Panels;
 
+import Domain.Customer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -56,7 +58,13 @@ public class AddCustomer extends javax.swing.JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                Customer customer = new Customer();
+                customer.createCustomer(nameTextField.toString(),
+                                    addressTextField.toString(),
+                                    Integer.parseInt(zipTextField.toString()),
+                                    cityTextField.toString(),
+                                    phoneTextField.toString(),
+                                    emailTextField.toString());
             }
         });
 
