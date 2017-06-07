@@ -1,5 +1,8 @@
 package GUI.Panels;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class CustomerOverview extends javax.swing.JPanel {
 
     /**
@@ -19,14 +22,14 @@ public class CustomerOverview extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        customerTable = new javax.swing.JTable();
+        headerLabel = new javax.swing.JLabel();
+        printButton = new javax.swing.JButton();
+        exportTextFileButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        customerTable.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
@@ -45,18 +48,46 @@ public class CustomerOverview extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(customerTable);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
-        jLabel1.setText("Oversigt over kunder");
+        headerLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
+        headerLabel.setText("Oversigt over kunder");
 
-        jButton2.setText("Print");
+        printButton.setText("Print");
 
-        jButton3.setText("Exporter til tekstfil");
+        exportTextFileButton.setText("Exporter til tekstfil");
 
-        jButton4.setText("Rediger");
+        editButton.setText("Rediger");
 
-        jButton5.setText("Slet");
+        deleteButton.setText("Slet");
+
+        printButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
+
+        exportTextFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
+
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -67,43 +98,43 @@ public class CustomerOverview extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
+                                                .addComponent(headerLabel)
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jButton2)
+                                                .addComponent(printButton)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jButton3)
+                                                .addComponent(exportTextFileButton)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jButton4)
+                                                .addComponent(editButton)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jButton5)))
+                                                .addComponent(deleteButton)))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
-                                .addComponent(jLabel1)
+                                .addComponent(headerLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButton2)
-                                        .addComponent(jButton3)
-                                        .addComponent(jButton4)
-                                        .addComponent(jButton5))
+                                        .addComponent(printButton)
+                                        .addComponent(exportTextFileButton)
+                                        .addComponent(editButton)
+                                        .addComponent(deleteButton))
                                 .addContainerGap())
         );
     }// </editor-fold>
 
 
     // Variables declaration - do not modify
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton printButton;
+    private javax.swing.JButton exportTextFileButton;
+    private javax.swing.JButton editButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel headerLabel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable customerTable;
     // End of variables declaration
 }
