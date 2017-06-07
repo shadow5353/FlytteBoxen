@@ -10,7 +10,7 @@ public class DBFacade {
 
     public DBFacade() {
         userName = "sa";
-        password = "";
+        password = "987654321";
         port = "1433";
         databaseName = "DB_FlytteBoxen";
 
