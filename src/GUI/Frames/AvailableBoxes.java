@@ -1,9 +1,18 @@
 package GUI.Frames;
 
+import Tech.DBFacade;
+import Tech.Messages;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.math.BigDecimal;
+import java.sql.CallableStatement;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Jacob on 06-06-2017.
@@ -12,13 +21,21 @@ public class AvailableBoxes extends JFrame {
     private JLabel headingLabel;
     private JScrollPane scrollPane;
     private JTable boxesTable;
+    private DefaultTableModel jtModel;
+    private String[] tableColumnName = {"Box Nummer", "Pris", "Hal Nummer", "Port Nummer"};
+    private String[][] tableData;
     private int size;
     private Date date;
+    private DBFacade db;
+    private Messages messages;
 
     /**
      * Creates new form AvailableBoxes
      */
     public AvailableBoxes(Date date, int size) {
+        db = new DBFacade();
+        messages = new Messages();
+
         int inset = 50;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,
@@ -32,14 +49,56 @@ public class AvailableBoxes extends JFrame {
     }
 
     private void generateRows() {
+        try {
+            CallableStatement cl = db.callableStatement("{call AavailableBoxes(?, ?)}");
 
+            cl.setDate(1, date);
+            cl.setInt(2, size);
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int boxID = rs.getInt(1);
+                BigDecimal price = rs.getBigDecimal(3);
+                int hall = rs.getInt(4);
+                int gate = rs.getInt(5);
+
+                Object[] newLine = {boxID, price, hall, gate};
+
+                jtModel.addRow(newLine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initComponents() {
 
         headingLabel = new javax.swing.JLabel();
         scrollPane = new javax.swing.JScrollPane();
-        boxesTable = new javax.swing.JTable();
+
+        jtModel = new DefaultTableModel(tableData, tableColumnName) {
+
+            Class[] types = new Class[]{
+                    Integer.class, Integer.class, Object.class, Integer.class, Integer.class
+            };
+            boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        boxesTable = new JTable(jtModel);
+
+        boxesTable.setAutoCreateRowSorter(true);
+        boxesTable.addMouseListener(new DoubleClickListener());
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
@@ -52,42 +111,10 @@ public class AvailableBoxes extends JFrame {
         headingLabel.setFont(new Font("Dialog", 1, 25));
         headingLabel.setText("Tilgængelige Bokse i størrelse " + size);
 
-        boxesTable.setAutoCreateRowSorter(true);
-        boxesTable.setModel(new DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null}
-                },
-                new String [] {
-                        "Boks Number", "Boks Size", "Pris", "Hal", "Port Nummer", "Vælg"
-                }
-        ) {
-            Class[] types = new Class [] {
-                    Integer.class, Integer.class, Object.class, Integer.class, Integer.class, Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                    false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         scrollPane.setViewportView(boxesTable);
-        if (boxesTable.getColumnModel().getColumnCount() > 0) {
-            boxesTable.getColumnModel().getColumn(0).setResizable(false);
-            boxesTable.getColumnModel().getColumn(1).setResizable(false);
-            boxesTable.getColumnModel().getColumn(2).setResizable(false);
-            boxesTable.getColumnModel().getColumn(3).setResizable(false);
-            boxesTable.getColumnModel().getColumn(4).setResizable(false);
-            boxesTable.getColumnModel().getColumn(5).setResizable(false);
-        }
+
+        generateRows();
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,6 +135,39 @@ public class AvailableBoxes extends JFrame {
                                 .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+    }
+
+    private class DoubleClickListener implements MouseListener {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) {
+                JTable target = (JTable) e.getSource();
+                int row = target.getSelectedRow();
+
+                int boxID = Integer.parseInt(target.getValueAt(row, 0).toString());
+
+
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 }
 
