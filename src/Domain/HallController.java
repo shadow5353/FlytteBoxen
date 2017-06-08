@@ -24,7 +24,11 @@ public class HallController {
     }
 
     public void updateHall(int hallID, String description, int zip, String address) {
+        this.db.updateHall(hallID, description, zip, address);
+    }
 
+    public void removeHall(int hallID) {
+        this.db.deleteHall(hallID);
     }
 
     public int getHallID() {

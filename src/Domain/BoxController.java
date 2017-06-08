@@ -40,4 +40,12 @@ public class BoxController {
     public void createBox(int boxID, int size, BigDecimal price, int hallID, int gate) {
         db.createBox(boxID, size, price, hallID, gate);
     }
+
+    public void updateBox(int boxID, int size, BigDecimal price, int hallID, int gate) {
+        db.updateBox(boxID, size, price, hallID, gate);
+    }
+
+    public void removeBox(int boxID) {
+        db.removeBox(boxID);
+    }
 }
