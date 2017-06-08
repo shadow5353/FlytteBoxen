@@ -242,13 +242,15 @@ public class DBFacade {
         }
     }
 
-    public void updateBox(int boxID, int boxSize, BigDecimal price) {
+    public void updateBox(int boxID, int boxSize, BigDecimal price, int hallID, int gate) {
         try {
-            CallableStatement cl = this.callableStatement("{call update_Box(?, ?, ?");
+            CallableStatement cl = this.callableStatement("{call update_Box(?, ?, ?, ?, ?)}");
 
             cl.setInt(1, boxID);
             cl.setInt(2, boxSize);
             cl.setBigDecimal(3, price);
+            cl.setInt(4, hallID);
+            cl.setInt(5, gate);
 
             cl.executeUpdate();
 
@@ -342,7 +344,7 @@ public class DBFacade {
                 int zip = rs.getInt("fld_Zip");
                 String address = rs.getString("fld_Address");
 
-                Hall hall = new Hall(description, zip, address);
+                Hall hall = new Hall(hallID, description, zip, address);
 
                 return hall;
             }
@@ -351,6 +353,28 @@ public class DBFacade {
         }
 
         return null;
+    }
+
+    public void updateHall(int hallID, String description, int zip, String address) {
+        try {
+            if(checkExists(hallID)) {
+                CallableStatement cl = this.callableStatement("{update_Hall(?, ?, ?, ?)}");
+
+                cl.setInt(1, hallID);
+                cl.setString(2, description);
+                cl.setInt(3, zip);
+                cl.setString(4, address);
+
+                cl.executeUpdate();
+
+                messages.infoMessage("Hal " + hallID + " er blevet opdateret!");
+            } else {
+                messages.errorMessage("Hal " + hallID + " findes ikke!");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean checkExists(int hallID) {
