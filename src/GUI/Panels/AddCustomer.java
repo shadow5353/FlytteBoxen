@@ -62,7 +62,6 @@ public class AddCustomer extends javax.swing.JPanel {
                 customer.createCustomer(nameTextField.toString(),
                                     addressTextField.toString(),
                                     Integer.parseInt(zipTextField.toString()),
-                                    cityTextField.toString(),
                                     phoneTextField.toString(),
                                     emailTextField.toString());
             }
