@@ -148,7 +148,11 @@ public class AvailableBoxes extends JFrame {
                 int dialogResult = messages.confirmMessage("Vil du vælge boks nummer: " + boxID + "?");
 
                 if (dialogResult == JOptionPane.YES_OPTION) {
-                    // If yes
+                    RegisterOrder registerOrder = new RegisterOrder(boxID, date);
+
+                    dispose();
+
+                    registerOrder.setVisible(true);
                 }
             }
         }

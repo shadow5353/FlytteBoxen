@@ -5,6 +5,7 @@ import Domain.Order;
 import Tech.Messages;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -12,7 +13,7 @@ import java.sql.Date;
 /**
  * Created by Jacob on 07-06-2017.
  */
-public class RegisterOrder extends javax.swing.JFrame {
+public class RegisterOrder extends JFrame {
     private JTextField addressField, nameField, phoneField, postalCodeField, searchField, emailField;
     private JButton createCustomerAndOrderButton, createOrderButton, searchButton;
     private JLabel searchFieldLabel, addressFieldLabel, customerInfoAddressLabel, customerInfoEmailLabel, customerInfoHeading,
@@ -21,8 +22,8 @@ public class RegisterOrder extends javax.swing.JFrame {
     private JPanel existingCustomer, newCustomerPanel;
     private JTabbedPane jTabbedPane1;
     private int boxNumber;
-    private Date date;
     private int customerID;
+    private Date date;
     private Customer customer;
     private Order order;
     private Messages messages;
@@ -32,14 +33,20 @@ public class RegisterOrder extends javax.swing.JFrame {
      * Creates new form RegisterOrder
      */
     public RegisterOrder(int boxNumber, Date date) {
-        initComponents();
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
+        this.boxNumber = boxNumber;
+        this.date = date;
 
         customer = new Customer();
         order = new Order();
         messages = new Messages();
 
-        this.boxNumber = boxNumber;
-        this.date = date;
+        initComponents();
     }
 
     private void createCustomer() {
@@ -66,7 +73,9 @@ public class RegisterOrder extends javax.swing.JFrame {
 
                         customer.createCustomer(name, address, postalCode, phone, email);
 
-                        customerID = customer.getCustomerID(email);
+                        customerID = customer.getCustomerIDByEmail(email);
+
+                        orderBox();
 
                         messages.infoMessage(name + " er blevet oprettet som kunde!");
                     } catch (NumberFormatException ex) {
@@ -75,6 +84,38 @@ public class RegisterOrder extends javax.swing.JFrame {
                 }
             }
         });
+    }
+
+    private void searchForCustomer() {
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!(searchField.getText().isEmpty())) {
+                    if(searchField.getText().contains("@")) {
+                        String email = searchField.getText();
+
+                        customerID = customer.getCustomerIDByEmail(email);
+                    } else if (searchField.getText().contains("+")) {
+                        String phone = searchField.getText();
+
+                        customerID = customer.getCustomerIDByPhone(phone);
+                    } else {
+                        messages.errorMessage("En mail skal indeholde @ eller et telefon nummer skal indeholde +45");
+                    }
+                } else {
+                    messages.errorMessage("Du skal indtaste email eller telefon nummer for kunden du leder efter!");
+                }
+            }
+        });
+    }
+
+    private void insertCustomerInfo() {
+        String customerName = customer.getName(customerID);
+
+    }
+
+    private void orderBox() {
+        order.createOrder(customerID, boxNumber, date, null);
     }
 
     private void initComponents() {
@@ -105,7 +146,13 @@ public class RegisterOrder extends javax.swing.JFrame {
         customerInfoIDLabel = new JLabel();
         createOrderButton = new JButton();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
+        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
+
+        this.setIconImage(img.getImage());
+
+        this.setTitle("Opret bestilling for box " + boxNumber);
 
         nameFieldLabel.setText("Navn");
 
@@ -118,6 +165,9 @@ public class RegisterOrder extends javax.swing.JFrame {
         emailFieldLabel.setText("Email Adresse");
 
         createCustomerAndOrderButton.setText("Opret Kunde og Bestilling");
+
+        createCustomer();
+        searchForCustomer();
 
         javax.swing.GroupLayout newCustomerPanelLayout = new javax.swing.GroupLayout(newCustomerPanel);
         newCustomerPanel.setLayout(newCustomerPanelLayout);
