@@ -1,5 +1,7 @@
 package GUI.Frames;
 
+import Domain.*;
+import Domain.Box;
 import Tech.DBFacade;
 import Tech.Messages;
 
@@ -9,10 +11,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
-import java.sql.CallableStatement;
 import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Jacob on 06-06-2017.
@@ -26,14 +26,14 @@ public class AvailableBoxes extends JFrame {
     private String[][] tableData;
     private int size;
     private Date date;
-    private DBFacade db;
     private Messages messages;
+    private BoxController boxController;
 
     /**
      * Creates new form AvailableBoxes
      */
     public AvailableBoxes(Date date, int size) {
-        db = new DBFacade();
+        boxController = new BoxController();
         messages = new Messages();
 
         int inset = 50;
@@ -49,26 +49,17 @@ public class AvailableBoxes extends JFrame {
     }
 
     private void generateRows() {
-        try {
-            CallableStatement cl = db.callableStatement("{call AavailableBoxes(?, ?)}");
+        List<Box> availableBoxes = boxController.getAvailableBoxes(size, date);
 
-            cl.setDate(1, date);
-            cl.setInt(2, size);
+        for (Box box : availableBoxes) {
+            int boxID = box.getBoxID();
+            BigDecimal price = box.getPrice();
+            int hall = box.getHallID();
+            int gate = box.getGate();
 
-            ResultSet rs = cl.executeQuery();
+            Object[] newLine = {boxID, price, hall, gate};
 
-            while (rs.next()) {
-                int boxID = rs.getInt(1);
-                BigDecimal price = rs.getBigDecimal(3);
-                int hall = rs.getInt(4);
-                int gate = rs.getInt(5);
-
-                Object[] newLine = {boxID, price, hall, gate};
-
-                jtModel.addRow(newLine);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            jtModel.addRow(newLine);
         }
     }
 

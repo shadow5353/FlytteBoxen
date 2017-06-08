@@ -3,6 +3,8 @@ package Domain;
 import Tech.DBFacade;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Jacob on 08-06-2017.
@@ -37,6 +39,10 @@ public class BoxController {
         return this.boxModel.getGate();
     }
 
+    public int getBoxID() {
+        return this.boxModel.getBoxID();
+    }
+
     public void createBox(int boxID, int size, BigDecimal price, int hallID, int gate) {
         db.createBox(boxID, size, price, hallID, gate);
     }
@@ -47,5 +53,9 @@ public class BoxController {
 
     public void removeBox(int boxID) {
         db.removeBox(boxID);
+    }
+
+    public List<Box> getAvailableBoxes(int size, Date startDate) {
+        return db.getAvailableBoxes(size, startDate);
     }
 }

@@ -1,6 +1,7 @@
 package GUI.Panels;
 
 import Domain.Hall;
+import Domain.HallController;
 import Tech.Messages;
 
 import javax.swing.*;
@@ -36,9 +37,9 @@ public class CreateHall extends JPanel {
                         String address = getAddress();
                         int postalCode = getPostalCode();
 
-                        Hall hall = new Hall();
+                        HallController hallController = new HallController();
 
-                        hall.createHall(hallNumber, description, postalCode, address);
+                        hallController.createHall(hallNumber, description, postalCode, address);
 
                         hallNumberField.setText("");
                         descriptionField.setText("");

@@ -7,6 +7,8 @@ import Domain.Order;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBFacade {
     private String userName, password, port, databaseName;
@@ -78,7 +80,6 @@ public class DBFacade {
 
             cl.executeUpdate();
 
-            messages.infoMessage("Customer: " + name + " have been created!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -181,7 +182,7 @@ public class DBFacade {
             try {
                 boolean exists = boxExists(boxID);
 
-                if(exists) {
+                if(!(exists)) {
 
                     CallableStatement cl = this.callableStatement("{call insertBox(?, ?, ?, ?, ?)}");
 
@@ -192,8 +193,6 @@ public class DBFacade {
                     cl.setInt(5, gate);
 
                     cl.executeUpdate();
-
-                    messages.infoMessage("Box: " + boxID + " have been created with size: " + size);
 
                 } else {
                     messages.errorMessage("This box: " + boxID + " already exists!");
@@ -215,11 +214,7 @@ public class DBFacade {
 
             ResultSet rs = ps.executeQuery();
 
-            if(!(rs.next())) {
-                return false;
-            } else {
-                return true;
-            }
+            return rs.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -273,9 +268,34 @@ public class DBFacade {
                 int hallID = rs.getInt("fld_hallId");
                 int gate = rs.getInt("fld_Gate");
 
-                Box box = new Box(size, price, hallID, gate);
+                Box box = new Box(boxID, size, price, hallID, gate);
 
                 return box;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Box> getAvailableBoxes(int size, Date startDate) {
+        try {
+            List<Box> boxes = new ArrayList<>();
+            CallableStatement cl = this.callableStatement("{call AavailableBoxes(?, ?)}");
+
+            cl.setInt(1, size);
+            cl.setDate(2, startDate);
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int boxNumer = rs.getInt("fld_BoxId");
+                BigDecimal price = rs.getBigDecimal("fld_Price");
+                int hallID = rs.getInt("fld_HallId");
+                int gate = rs.getInt("fld_Gate");
+
+                boxes.add(new Box(boxNumer, price, hallID, gate));
             }
         } catch (SQLException e) {
             e.printStackTrace();

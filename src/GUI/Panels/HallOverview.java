@@ -94,7 +94,7 @@ public class HallOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Hall hall = new Hall();
+//                Hall hall = new Hall();
                 //TODO Delete hall method
             }
         });
