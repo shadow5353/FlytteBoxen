@@ -145,7 +145,11 @@ public class AvailableBoxes extends JFrame {
 
                 int boxID = Integer.parseInt(target.getValueAt(row, 0).toString());
 
+                int dialogResult = messages.confirmMessage("Vil du vælge boks nummer: " + boxID + "?");
 
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    // If yes
+                }
             }
         }
 

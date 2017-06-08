@@ -12,4 +12,8 @@ public class Messages {
         JOptionPane.showMessageDialog(null, message, "Flytteboxen", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public int confirmMessage(String message) {
+        return JOptionPane.showConfirmDialog(null, message, "Flytteboxen", JOptionPane.YES_NO_OPTION);
+    }
+
 }
