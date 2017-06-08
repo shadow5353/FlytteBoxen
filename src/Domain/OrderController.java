@@ -22,7 +22,7 @@ public class OrderController {
     }
 
     public void createOrder(int customerID, int boxID, Date startDate, Date endDate){
-      
+
         db.createOrder(customerID,boxID,startDate,endDate);
     }
 
@@ -34,6 +34,30 @@ public class OrderController {
     public void deleteOrder (int orderID){
 
         db.deleteOrder(orderID);
+    }
+
+    public int getCustomerId(){
+        return orderModel.getCustomerID();
+    }
+
+    public int getBoxId(){
+        return orderModel.getCustomerID();
+    }
+
+    public String getCreatedBy(){
+        return orderModel.getCreatedBy();
+    }
+
+    public Date getStartDate(){
+        return orderModel.getStartDate();
+    }
+
+    public Date getEndDate(){
+        return orderModel.getEndDate();
+    }
+
+    public boolean getTerminated(){
+        return orderModel.isTerminated();
     }
 
 
