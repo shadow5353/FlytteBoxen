@@ -1,81 +1,45 @@
 package Domain;
 
-import Tech.DBFacade;
-import Tech.Messages;
-
-import java.sql.CallableStatement;
 import java.sql.Date;
-import java.sql.SQLException;
 
 public class Order {
-    private DBFacade db;
-    private Messages messages;
+    private int customerID;
+    private int boxID;
+    private String createdBy;
+    private Date startDate;
+    private Date endDate;
+    private boolean terminated;
 
-    public Order() {
-        db = new DBFacade();
-        messages = new Messages();
+    public Order(int customerID, int boxID, String createdBy, Date startDate, Date endDate, boolean terminated) {
+        this.customerID = customerID;
+        this.boxID = boxID;
+        this.createdBy = createdBy;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.terminated = terminated;
     }
 
-    public void createOrder(int customerID, int boxID, Date startDate, Date endDate) {
-        try {
-            CallableStatement cl = db.callableStatement("{call add_Order(?, ?, ?, ?)}");
-
-            String createdBy = System.getProperty("user.name");
-            boolean terminated = false;
-
-            cl.setInt(1, customerID);
-            cl.setInt(2, boxID);
-            cl.setString(3, createdBy);
-            cl.setDate(4, startDate);
-            cl.setDate(5, endDate);
-            cl.setBoolean(6, terminated);
-
-            cl.executeUpdate();
-
-            Customer customer = new Customer();
-            String customerName = customer.getName(customerID);
-
-            messages.infoMessage(customerName + " have ordered box: " + boxID);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void updateOrder(int orderID, int customerID, int boxID, String createdBy, Date startDate, Date endDate, boolean terminated) {
-        try {
-            CallableStatement cl = db.callableStatement("{call update_Order(?, ?, ?, ?, ?, ?, ?)}");
-
-            cl.setInt(1, orderID);
-            cl.setInt(2, customerID);
-            cl.setInt(3, boxID);
-            cl.setString(4, createdBy);
-            cl.setDate(5, startDate);
-            cl.setDate(6, endDate);
-            cl.setBoolean(7, terminated);
-
-            cl.executeUpdate();
-
-            Customer customer = new Customer();
-            String customerName = customer.getName(customerID);
-
-            messages.infoMessage("Order number: " + customerID + " for customer: " + customerName + " have been updated!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public int getBoxID() {
+        return boxID;
     }
 
-    public void deleteOrder(int orderID) {
-        try {
-            CallableStatement cl = db.callableStatement("{call delete_Order(?)}");
+    public String getCreatedBy() {
+        return createdBy;
+    }
 
-            cl.setInt(1, orderID);
+    public Date getStartDate() {
+        return startDate;
+    }
 
-            cl.executeUpdate();
+    public Date getEndDate() {
+        return endDate;
+    }
 
-            messages.infoMessage("Customer number: " + orderID + " have been deleted!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public boolean isTerminated() {
+        return terminated;
     }
 }

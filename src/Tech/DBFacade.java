@@ -2,6 +2,8 @@ package Tech;
 
 import Domain.Box;
 import Domain.Customer;
+import Domain.Hall;
+import Domain.Order;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -311,10 +313,44 @@ public class DBFacade {
 
     public void deleteHall(int hallID) {
         if(checkExists(hallID)) {
+            try {
+                CallableStatement cl = this.callableStatement("{call delete_Hall(?)}");
 
+                cl.setInt(1, hallID);
+
+                cl.executeUpdate();
+
+                messages.infoMessage("Hal " + hallID + " er blevet fjernet!");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             messages.errorMessage("Hal " + hallID + " findes ikke!");
         }
+    }
+
+    public Hall getHall(int hallID) {
+        try {
+            CallableStatement cl = this.callableStatement("{show_Hall(?)}");
+
+            cl.setInt(1, hallID);
+
+            ResultSet rs = cl.executeQuery();
+
+            if(rs.next()) {
+                String description = rs.getString("fld_Description");
+                int zip = rs.getInt("fld_Zip");
+                String address = rs.getString("fld_Address");
+
+                Hall hall = new Hall(description, zip, address);
+
+                return hall;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private boolean checkExists(int hallID) {
@@ -335,5 +371,101 @@ public class DBFacade {
         }
 
         return false;
+    }
+
+    // Order
+
+    public void createOrder(int customerID, int boxID, Date startDate, Date endDate) {
+        try {
+            CallableStatement cl = this.callableStatement("{call add_Order(?, ?, ?, ?)}");
+
+            String createdBy = System.getProperty("user.name");
+            boolean terminated = false;
+
+            cl.setInt(1, customerID);
+            cl.setInt(2, boxID);
+            cl.setString(3, createdBy);
+            cl.setDate(4, startDate);
+            cl.setDate(5, endDate);
+            cl.setBoolean(6, terminated);
+
+            cl.executeUpdate();
+
+            Customer customer = this.getCustomer(customerID);
+
+            String customerName = customer.getName();
+
+            messages.infoMessage(customerName + " have ordered box: " + boxID);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateOrder(int orderID, int customerID, int boxID, String createdBy, Date startDate, Date endDate, boolean terminated) {
+        try {
+            CallableStatement cl = this.callableStatement("{call update_Order(?, ?, ?, ?, ?, ?, ?)}");
+
+            cl.setInt(1, orderID);
+            cl.setInt(2, customerID);
+            cl.setInt(3, boxID);
+            cl.setString(4, createdBy);
+            cl.setDate(5, startDate);
+            cl.setDate(6, endDate);
+            cl.setBoolean(7, terminated);
+
+            cl.executeUpdate();
+
+            Customer customer = this.getCustomer(customerID);
+
+            String customerName = customer.getName();
+
+            messages.infoMessage("Order number: " + customerID + " for customer: " + customerName + " have been updated!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteOrder(int orderID) {
+        try {
+            CallableStatement cl = this.callableStatement("{call delete_Order(?)}");
+
+            cl.setInt(1, orderID);
+
+            cl.executeUpdate();
+
+            messages.infoMessage("Customer number: " + orderID + " have been deleted!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Order getOrder(int orderID) {
+        try {
+            CallableStatement cl = this.callableStatement("{call show_Order(?)}");
+
+            cl.setInt(1, orderID);
+
+            ResultSet rs = cl.executeQuery();
+
+            if (rs.next()) {
+                int customerID = rs.getInt("fld_CustomerId");
+                int boxID = rs.getInt("fld_BoxId");
+                String createdBy = rs.getString("fld_CreatedBy");
+                Date startedDate = rs.getDate("fld_StartDate");
+                Date endDate = rs.getDate("fld_EndDate");
+                boolean terminated = rs.getBoolean("fld_Terminated");
+
+                Order order = new Order(customerID, boxID, createdBy, startedDate, endDate, terminated);
+
+                return order;
+            } else {
+                messages.errorMessage("Denne ordre findes ikke!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
