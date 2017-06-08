@@ -1,25 +1,23 @@
 package Domain;
 
-import Tech.DBFacade;
-import Tech.Messages;
-
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 /**
  * Created by Jacob on 06-06-2017.
  */
 public class Hall {
+    private int hallID;
     private String description;
     private int zip;
     private String address;
 
-    public Hall(String description, int zip, String address) {
+    public Hall(int hallID, String description, int zip, String address) {
+        this.hallID = hallID;
         this.description = description;
         this.zip = zip;
         this.address = address;
+    }
+
+    public int getHallID() {
+        return hallID;
     }
 
     public String getDescription() {
