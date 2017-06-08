@@ -1,17 +1,24 @@
 package GUI.Panels;
 
 import Domain.Customer;
+import Tech.Messages;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 
 public class CustomerOverview extends javax.swing.JPanel {
 
+    private DefaultTableModel jtModel;
+    private Messages ms;
+
     /**
      * Creates new form BoxOverview
      */
     public CustomerOverview() {
+
+
         initComponents();
     }
 
@@ -32,25 +39,27 @@ public class CustomerOverview extends javax.swing.JPanel {
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
 
-        customerTable.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null}
-                },
-                new String [] {
-                        "Kundenummer", "Navn", "Adresse", "Postnummer", "By", "Telefon", "E-Mail"
-                }
-        ) {
-            boolean[] canEdit = new boolean [] {
+
+        jtModel = new DefaultTableModel(tableData, tableColumnName) {
+
+            Class[] types = new Class[]{
+                    Integer.class, String.class, String.class, Integer.class, String.class, String.class, String.class
+            };
+            boolean[] canEdit = new boolean[]{
                     false, false, false, false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
             }
-        });
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        };
+
+        customerTable = new javax.swing.JTable(jtModel);
+
         jScrollPane1.setViewportView(customerTable);
 
         headerLabel.setFont(new java.awt.Font("Dialog", 1, 25)); // NOI18N
@@ -145,5 +154,7 @@ public class CustomerOverview extends javax.swing.JPanel {
     private javax.swing.JLabel headerLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable customerTable;
+    private String[] tableColumnName = {"Kundenummer", "Navn", "Adresse", "Postnummer", "By", "Telefon", "E-Mail"};
+    private String[][] tableData;
     // End of variables declaration
 }

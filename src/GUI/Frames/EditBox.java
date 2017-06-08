@@ -2,11 +2,19 @@ package GUI.Frames;
 
 public class EditBox extends javax.swing.JFrame {
 
+    private int boxId;
+
     /**
      * Creates new form EditBox
      */
-    public EditBox() {
+    public EditBox(int boxId) {
+
+        this.boxId = boxId;
+
         initComponents();
+
+        boksNumberTextField.setText("" + boxId);
+
     }
 
     /**
