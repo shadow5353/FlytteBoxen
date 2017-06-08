@@ -15,12 +15,20 @@ public class CustomerController {
         this.customerModel = db.getCustomer(customerID);
     }
 
-    public CustomerController(String name, String email, String phone, String address, int zip) {
+    public CustomerController() {
         this.db = new DBFacade();
+    }
 
-        this.db.createCustomer(name, email, zip, address, phone);
+    public void createCustomer(String name, String address, int zip, String phone, String email) {
+        this.db.createCustomer(name, address, zip, phone, email);
+    }
 
-        this.customerModel = db.getCustomer(email);
+    public void updateCustomer(int customerID, String name, String address, int zip, String phone, String email) {
+        this.db.updateCustomer(customerID ,name, address, zip, phone, email);
+    }
+
+    public void removeCustomer(int customerID) {
+        this.db.removeCustomer(customerID);
     }
 
     public String getCustomerName() {

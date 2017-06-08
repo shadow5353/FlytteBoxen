@@ -98,17 +98,16 @@ public class DBFacade {
         }
     }
 
-    public void updateCustomer(int customerID, String name, String address, int zip, String town, String phone, String email) {
+    public void updateCustomer(int customerID, String name, String address, int zip, String phone, String email) {
         try {
-            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?, ?}");
+            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?}");
 
             cl.setInt(1, customerID);
             cl.setString(2, name);
             cl.setString(3, address);
             cl.setInt(4, zip);
-            cl.setString(5, town);
-            cl.setString(6, phone);
-            cl.setString(7, email);
+            cl.setString(5, phone);
+            cl.setString(6, email);
 
             cl.executeUpdate();
 
