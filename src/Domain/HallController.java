@@ -15,12 +15,16 @@ public class HallController {
         this.hallModel = this.db.getHall(hallID);
     }
 
-    public HallController(int hallID,String description, int zip, String address) {
+    public HallController() {
         this.db = new DBFacade();
+    }
 
+    public void createHall(int hallID,String description, int zip, String address) {
         this.db.createHall(hallID, description, zip, address);
+    }
 
-        this.hallModel = this.db.getHall(hallID);
+    public void updateHall(int hallID, String description, int zip, String address) {
+
     }
 
     public int getHallID() {

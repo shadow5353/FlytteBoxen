@@ -17,12 +17,8 @@ public class BoxController {
         this.boxModel = db.getBox(boxID);
     }
 
-    public BoxController(int boxID,int size, BigDecimal price, int hallID, int gate) {
+    public BoxController() {
         this.db = new DBFacade();
-
-        db.createBox(boxID, size, price, hallID, gate);
-
-        this.boxModel = db.getBox(boxID);
     }
 
     public int getBoxSize() {
@@ -39,5 +35,9 @@ public class BoxController {
 
     public int getBoxGate() {
         return this.boxModel.getGate();
+    }
+
+    public void createBox(int boxID, int size, BigDecimal price, int hallID, int gate) {
+        db.createBox(boxID, size, price, hallID, gate);
     }
 }
