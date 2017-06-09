@@ -4,6 +4,7 @@ import Domain.Customer;
 import Domain.CustomerController;
 import Tech.Messages;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,9 +104,14 @@ public class CustomerOverview extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CustomerController cc = new CustomerController();
+                Messages ms = new Messages();
                 int row = customerTable.getSelectedRow();
                 int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
-                cc.removeCustomer(customerId);
+                int answer = ms.confirmMessage("Er du sikker på du vil slette kunde med kundenummer: " + customerId + " ?");
+                if (answer == JOptionPane.YES_OPTION){
+                    cc.removeCustomer(customerId);
+                }
+
             }
         });
 

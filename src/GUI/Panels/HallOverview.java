@@ -3,7 +3,9 @@ package GUI.Panels;
 
 import Domain.Hall;
 import Domain.HallController;
+import Tech.Messages;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
@@ -96,9 +98,14 @@ public class HallOverview extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 HallController hc = new HallController();
+                Messages ms = new Messages();
                 int row = hallOverviewTable.getSelectedRow();
                 int hallId = Integer.parseInt(hallOverviewTable.getValueAt(row,0).toString());
-                hc.removeHall(hallId);
+                int answer = ms.confirmMessage("Er du sikker på du vil slette hallnummer: " + hallId + " ?");
+                if (answer== JOptionPane.YES_OPTION){
+                    hc.removeHall(hallId);
+                }
+
 
             }
         });
