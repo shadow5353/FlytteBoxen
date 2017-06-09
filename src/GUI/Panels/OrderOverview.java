@@ -1,5 +1,7 @@
 package GUI.Panels;
 
+import Domain.OrderController;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -85,7 +87,10 @@ public class OrderOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                OrderController oc = new OrderController();
+                int row = orderOverviewTable.getSelectedRow();
+                int orderId = Integer.parseInt(orderOverviewTable.getValueAt(row,0).toString());
+                oc.deleteOrder(orderId);
             }
         });
 
