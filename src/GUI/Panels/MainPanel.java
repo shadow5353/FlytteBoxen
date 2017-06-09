@@ -37,5 +37,5 @@ public class MainPanel extends JPanel {
                                 .addComponent(picture)
                                 .addContainerGap(136, Short.MAX_VALUE))
         );
-    }// </editor-fold>
+    }
 }
