@@ -1,5 +1,10 @@
 package GUI.Frames;
 
+import Domain.CustomerController;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class EditCustomer extends javax.swing.JFrame {
 
     private javax.swing.JLabel adressLabel;
@@ -9,20 +14,33 @@ public class EditCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JLabel headerLabel;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel telephonenNumberLabel;
     private javax.swing.JTextField telephonenumberTextField;
     private javax.swing.JLabel zipLabel;
     private javax.swing.JTextField zipTextField;
+    private int customerId;
 
     /**
      * Creates new form EditBox
      */
-    public EditCustomer() {
+    public EditCustomer(int customerId) {
+        CustomerController cc = new CustomerController();
+        this.customerId = customerId;
         initComponents();
+
+        customerIdTextField.setText("" + customerId);
+        adressTextField.setText(""+ cc.getCustomerAddress());
+        zipTextField.setText(""+ cc.getCustomerZip());
+        telephonenumberTextField.setText(""+cc.getCustomerPhone());
+        emailTextField.setText(""+cc.getCustomerEmail());
+        nameTextField.setText(""+cc.getCustomerName());
+
     }
+
+
 
     private void initComponents() {
 
@@ -39,7 +57,7 @@ public class EditCustomer extends javax.swing.JFrame {
         telephonenumberTextField = new javax.swing.JTextField();
         emailLabel = new javax.swing.JLabel();
         emailTextField = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,6 +76,21 @@ public class EditCustomer extends javax.swing.JFrame {
         telephonenNumberLabel.setText("Telefonnummer:");
 
         emailLabel.setText("E-mail:");
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CustomerController cc = new CustomerController();
+                cc.updateCustomer(
+                            Integer.parseInt(customerIdTextField.getText()),
+                            nameTextField.getText(),
+                            adressTextField.getText(),
+                            Integer.parseInt(zipTextField.getText()),
+                            telephonenumberTextField.getText(),
+                            emailTextField.getText()
+                );
+            }
+        });
 
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -84,7 +117,7 @@ public class EditCustomer extends javax.swing.JFrame {
                                                         .addComponent(telephonenumberTextField)
                                                         .addComponent(emailTextField)
                                                         .addComponent(emailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(jTextField2))))
+                                                        .addComponent(nameTextField))))
                                 .addContainerGap(159, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,7 +132,7 @@ public class EditCustomer extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(nameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(adressLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

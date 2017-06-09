@@ -1,10 +1,9 @@
 package GUI.Panels;
 
-import Domain.Box;
+
 import Domain.BoxController;
 import GUI.Frames.EditBox;
 import Tech.Messages;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -30,6 +29,11 @@ public class BoxOverview extends javax.swing.JPanel {
      */
     public BoxOverview() {
         initComponents();
+    }
+
+    public void generateRows(){
+        BoxController bc = new BoxController();
+
     }
 
     private void initComponents() {

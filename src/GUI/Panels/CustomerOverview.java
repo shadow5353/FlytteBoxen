@@ -2,6 +2,7 @@ package GUI.Panels;
 
 
 import Domain.CustomerController;
+import GUI.Frames.EditCustomer;
 import Tech.Messages;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -96,7 +97,10 @@ public class CustomerOverview extends javax.swing.JPanel {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO
+                int row = customerTable.getSelectedRow();
+                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
+                EditCustomer eb = new EditCustomer(customerId);
+                eb.setVisible(true);
             }
         });
 

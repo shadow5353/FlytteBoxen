@@ -1,5 +1,11 @@
 package GUI.Frames;
 
+import Domain.BoxController;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+
 public class EditBox extends javax.swing.JFrame {
 
     private javax.swing.JTextField boksNumberTextField;
@@ -20,12 +26,17 @@ public class EditBox extends javax.swing.JFrame {
      * Creates new form EditBox
      */
     public EditBox(int boxId) {
+        BoxController bc = new BoxController();
 
         this.boxId = boxId;
 
         initComponents();
 
         boksNumberTextField.setText("" + boxId);
+        priceTextField.setText("" + bc.getBoxPrice() );
+        hallNumberTextField.setText(""+ bc.getBoxHall());
+        nearestGateTextField.setText(""+ bc.getBoxGate());
+
 
     }
 
@@ -61,6 +72,21 @@ public class EditBox extends javax.swing.JFrame {
         nearestGateLabel.setText("Nærmeste port:");
 
         sizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BoxController bc = new BoxController();
+                bc.updateBox(
+                        Integer.parseInt(boksNumberTextField.getText()),
+                        Integer.parseInt(sizeComboBox.getSelectedObjects().toString()),
+                        new BigDecimal(priceTextField.getText()),
+                        Integer.parseInt(hallNumberTextField.getText()),
+                        Integer.parseInt(nearestGateTextField.getText())
+                );
+
+            }
+        });
 
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
