@@ -70,7 +70,7 @@ public class DBFacade {
 
     public void createCustomer(String name, String address, int zip, String phone, String email) {
         try {
-            CallableStatement cl = this.callableStatement("{call add_Customer(?, ?, ?, ?, ?, ?)}");
+            CallableStatement cl = this.callableStatement("{call add_Customer(?, ?, ?, ?, ?)}");
 
             cl.setString(1, name);
             cl.setString(2, address);
@@ -166,14 +166,29 @@ public class DBFacade {
                 Customer customer = new Customer(customerID, name, email, phone, address, zip);
 
                 return customer;
-            } else {
-                messages.errorMessage("Der findes ingen kunde med email: " + customerEmail + "!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    public boolean customerExists(String email) {
+        try {
+            PreparedStatement ps = this.preparedStatement("SELECT * FROM tbl_Customer WHERE fld_Email = ?");
+
+            ps.setString(1, email);
+
+            ResultSet rs = ps.executeQuery();
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     // Box
@@ -193,6 +208,8 @@ public class DBFacade {
                 cl.setInt(5, gate);
 
                 cl.executeUpdate();
+
+                messages.infoMessage("Boks: " + boxID + " er blevet oprettet med størrelse: " + size);
 
             } else {
                 messages.errorMessage("Boks: " + boxID + " eksistere allerede!");
@@ -245,7 +262,7 @@ public class DBFacade {
 
             cl.executeUpdate();
 
-            messages.infoMessage("Box: " + boxID + " have been updated!");
+            messages.infoMessage("Boks: " + boxID + " er blevet opdateret!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -288,9 +305,35 @@ public class DBFacade {
 
             while (rs.next()) {
                 int boxNumber = rs.getInt("fld_BoxId");
-                BigDecimal price = rs.getBigDecimal("fld_Price");
                 int hallID = rs.getInt("fld_HallId");
+                BigDecimal price = rs.getBigDecimal("fld_Price");
                 int gate = rs.getInt("fld_Gate");
+
+                boxes.add(new Box(boxNumber, size, price, hallID, gate));
+            }
+
+            return boxes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Box> getAvailableBoxes() {
+        try {
+            List<Box> boxes = new ArrayList<>();
+            CallableStatement cl = this.callableStatement("{call showAll_Box()}");
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int boxNumber = rs.getInt("fld_BoxId");
+                int size = rs.getInt("fld_Size");
+                BigDecimal price = rs.getBigDecimal("fld_Price");
+                int gate = rs.getInt("fld_Gate");
+                int hallID = rs.getInt("fld_HallId");
+
 
                 boxes.add(new Box(boxNumber, size, price, hallID, gate));
             }
@@ -419,7 +462,7 @@ public class DBFacade {
 
     public void createOrder(int customerID, int boxID, Date startDate, Date endDate) {
         try {
-            CallableStatement cl = this.callableStatement("{call add_Order(?, ?, ?, ?)}");
+            CallableStatement cl = this.callableStatement("{call add_Order(?, ?, ?, ?, ?, ?)}");
 
             String createdBy = System.getProperty("user.name");
             boolean terminated = false;

@@ -49,7 +49,10 @@ public class AddBox extends javax.swing.JPanel {
 
                     boxController.createBox(boxID, size, price, hallID, gate);
 
-                    messages.infoMessage("Box: " + boxID + " have been created with size: " + size);
+                    boxTextField.setText("");
+                    priceTextField.setText("");
+                    hallTextField.setText("");
+                    nearestGateTextField.setText("");
                 }
             }
         });
@@ -82,7 +85,7 @@ public class AddBox extends javax.swing.JPanel {
 
         priceLabel.setText("Pris:");
 
-        hallLabel.setText("Hall:");
+        hallLabel.setText("Hal:");
 
         nearestGateLabel.setText("Nærmeste port:");
 

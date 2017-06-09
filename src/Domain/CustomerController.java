@@ -37,6 +37,10 @@ public class CustomerController {
         this.db.removeCustomer(customerID);
     }
 
+    public boolean customerExists(String email) {
+        return db.customerExists(email);
+    }
+
     public int getCustomerID() {
         return this.customerModel.getCustomerID();
     }
