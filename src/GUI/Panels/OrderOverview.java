@@ -1,7 +1,9 @@
 package GUI.Panels;
 
 import Domain.OrderController;
+import Tech.Messages;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -88,9 +90,14 @@ public class OrderOverview extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 OrderController oc = new OrderController();
+                Messages ms = new Messages();
                 int row = orderOverviewTable.getSelectedRow();
                 int orderId = Integer.parseInt(orderOverviewTable.getValueAt(row,0).toString());
-                oc.deleteOrder(orderId);
+                int answer = ms.confirmMessage("Er du sikker på du vil slette ordren med ordrenummer: " + orderId + " ?");
+                if (answer == JOptionPane.YES_OPTION) {
+                    oc.deleteOrder(orderId);
+                }
+              
             }
         });
 

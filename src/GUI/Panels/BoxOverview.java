@@ -113,9 +113,14 @@ public class BoxOverview extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BoxController bc = new BoxController();
+                Messages ms = new Messages();
                 int row = boksOverviewTable.getSelectedRow();
                 int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
-                bc.removeBox(boxId);
+                int answer = ms.confirmMessage("Er du sikker på du vil slette boks " + boxId + " ?");
+                if(answer == JOptionPane.YES_OPTION){
+                    bc.removeBox(boxId);
+                }
+
             }
         });
 
