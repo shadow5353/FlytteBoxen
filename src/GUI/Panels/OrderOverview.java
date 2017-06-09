@@ -97,7 +97,7 @@ public class OrderOverview extends javax.swing.JPanel {
                 if (answer == JOptionPane.YES_OPTION) {
                     oc.deleteOrder(orderId);
                 }
-              
+
             }
         });
 
