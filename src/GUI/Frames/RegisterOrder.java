@@ -45,6 +45,7 @@ public class RegisterOrder extends JFrame {
         this.date = date;
 
         this.customerController = new CustomerController();
+        this.orderController = new OrderController();
 
         messages = new Messages();
 
@@ -88,6 +89,15 @@ public class RegisterOrder extends JFrame {
         });
     }
 
+    private void createOrderFromExisting() {
+        createOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                orderBox();
+            }
+        });
+    }
+
     private void searchForCustomer() {
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -95,31 +105,37 @@ public class RegisterOrder extends JFrame {
                 if (!(searchField.getText().isEmpty())) {
                     String email = searchField.getText();
 
-                    CustomerController oldCustomer = new CustomerController(email);
+                    CustomerController oldCustomer = new CustomerController();
 
-                    customerID = oldCustomer.getCustomerID();
-                    String name = oldCustomer.getCustomerName();
-                    String phone = oldCustomer.getCustomerPhone();
-                    String address = oldCustomer.getCustomerAddress();
-                    int zip = oldCustomer.getCustomerZip();
+                    if(oldCustomer.customerExists(email)) {
 
-                    customerInfoHeading.setText("Kunde Informationer");
+                        oldCustomer = new CustomerController(email);
 
-                    customerInfoIDLabel.setText("Kunde ID: " + customerID);
-                    customerInfoNameLabel.setText("Navn: " + name);
-                    customerInfoEmailLabel.setText("Email: " + email);
-                    customerInfoPhoneLabel.setText("Telefon: " + phone);
-                    customerInfoAddressLabel.setText("Adresse: " + address);
-                    customerInfoPostalCodeLabel.setText("Post nummer: " + zip);
+                        customerID = oldCustomer.getCustomerID();
+                        String name = oldCustomer.getCustomerName();
+                        String phone = oldCustomer.getCustomerPhone();
+                        String address = oldCustomer.getCustomerAddress();
+                        int zip = oldCustomer.getCustomerZip();
 
-                    customerInfoIDLabel.setVisible(true);
-                    customerInfoHeading.setVisible(true);
-                    customerInfoNameLabel.setVisible(true);
-                    customerInfoEmailLabel.setVisible(true);
-                    customerInfoPhoneLabel.setVisible(true);
-                    customerInfoAddressLabel.setVisible(true);
-                    customerInfoPostalCodeLabel.setVisible(true);
+                        customerInfoHeading.setText("Kunde Informationer");
 
+                        customerInfoIDLabel.setText("Kunde ID: " + customerID);
+                        customerInfoNameLabel.setText("Navn: " + name);
+                        customerInfoEmailLabel.setText("Email: " + email);
+                        customerInfoPhoneLabel.setText("Telefon: " + phone);
+                        customerInfoAddressLabel.setText("Adresse: " + address);
+                        customerInfoPostalCodeLabel.setText("Post nummer: " + zip);
+
+                        customerInfoIDLabel.setVisible(true);
+                        customerInfoHeading.setVisible(true);
+                        customerInfoNameLabel.setVisible(true);
+                        customerInfoEmailLabel.setVisible(true);
+                        customerInfoPhoneLabel.setVisible(true);
+                        customerInfoAddressLabel.setVisible(true);
+                        customerInfoPostalCodeLabel.setVisible(true);
+                    } else {
+                        messages.errorMessage("Der findes ingen kunde med denne email: " + email);
+                    }
                 } else {
                     messages.errorMessage("Du skal indtaste en email, for kunden du leder efter!");
                 }
@@ -129,6 +145,8 @@ public class RegisterOrder extends JFrame {
 
     private void orderBox() {
         orderController.createOrder(customerID, boxNumber, date, null);
+
+        dispose();
     }
 
     private void initComponents() {
@@ -181,6 +199,7 @@ public class RegisterOrder extends JFrame {
 
         createCustomer();
         searchForCustomer();
+        createOrderFromExisting();
 
         javax.swing.GroupLayout newCustomerPanelLayout = new javax.swing.GroupLayout(newCustomerPanel);
         newCustomerPanel.setLayout(newCustomerPanelLayout);

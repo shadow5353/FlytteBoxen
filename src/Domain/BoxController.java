@@ -58,4 +58,8 @@ public class BoxController {
     public List<Box> getAvailableBoxes(int size, Date startDate) {
         return db.getAvailableBoxes(size, startDate);
     }
+
+    public List<Box> getAvailableBoxes() {
+        return db.getAvailableBoxes();
+    }
 }

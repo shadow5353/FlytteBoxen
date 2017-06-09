@@ -53,7 +53,13 @@ public class AddCustomer extends javax.swing.JPanel {
 
                         customerController.createCustomer(name, address, zip, phone, email);
 
-                        message.infoMessage("Customer: " + name + " have been created!");
+                        message.infoMessage("Kunde: " + name + " er blevet oprettet!");
+
+                        nameTextField.setText("");
+                        emailTextField.setText("");
+                        phoneTextField.setText("");
+                        addressTextField.setText("");
+                        zipTextField.setText("");
                     } catch (NumberFormatException ex) {
                         message.errorMessage("Post nummeret skal være i tal!");
                     }
