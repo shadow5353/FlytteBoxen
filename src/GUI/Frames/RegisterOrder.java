@@ -1,7 +1,9 @@
 package GUI.Frames;
 
 import Domain.Customer;
+import Domain.CustomerController;
 import Domain.Order;
+import Domain.OrderController;
 import Tech.Messages;
 
 import javax.swing.*;
@@ -24,8 +26,8 @@ public class RegisterOrder extends JFrame {
     private int boxNumber;
     private int customerID;
     private Date date;
-    private Customer customer;
-    private Order order;
+    private OrderController orderController;
+    private CustomerController customerController;
     private Messages messages;
 
 
@@ -42,8 +44,8 @@ public class RegisterOrder extends JFrame {
         this.boxNumber = boxNumber;
         this.date = date;
 
-        customer = new Customer();
-        order = new Order();
+        this.customerController = new CustomerController();
+
         messages = new Messages();
 
         initComponents();
@@ -57,9 +59,9 @@ public class RegisterOrder extends JFrame {
                     messages.errorMessage("Du skal indtaste kundens navn!");
                 } else if (emailField.getText().isEmpty()) {
                     messages.errorMessage("Du skal indtaste kundens email!");
-                } else if (phoneField.getText().isEmpty()){
+                } else if (phoneField.getText().isEmpty()) {
                     messages.errorMessage("Du skal indtaste kundens telefon nummer!");
-                } else if (addressField.getText().isEmpty()){
+                } else if (addressField.getText().isEmpty()) {
                     messages.errorMessage("Du skal indtaste kundens adresse!");
                 } else if (postalCodeField.getText().isEmpty()) {
                     messages.errorMessage("Du skal indtaste kundens post nummer!");
@@ -71,9 +73,9 @@ public class RegisterOrder extends JFrame {
                         String phone = phoneField.getText();
                         String email = emailField.getText();
 
-                        customer.createCustomer(name, address, postalCode, phone, email);
+                        customerController.createCustomer(name, address, postalCode, phone, email);
 
-                        customerID = customer.getCustomerIDByEmail(email);
+                        customerID = new CustomerController(email).getCustomerID();
 
                         orderBox();
 
@@ -90,32 +92,43 @@ public class RegisterOrder extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!(searchField.getText().isEmpty())) {
-                    if(searchField.getText().contains("@")) {
-                        String email = searchField.getText();
+                if (!(searchField.getText().isEmpty())) {
+                    String email = searchField.getText();
 
-                        customerID = customer.getCustomerIDByEmail(email);
-                    } else if (searchField.getText().contains("+")) {
-                        String phone = searchField.getText();
+                    CustomerController oldCustomer = new CustomerController(email);
 
-                        customerID = customer.getCustomerIDByPhone(phone);
-                    } else {
-                        messages.errorMessage("En mail skal indeholde @ eller et telefon nummer skal indeholde +45");
-                    }
+                    customerID = oldCustomer.getCustomerID();
+                    String name = oldCustomer.getCustomerName();
+                    String phone = oldCustomer.getCustomerPhone();
+                    String address = oldCustomer.getCustomerAddress();
+                    int zip = oldCustomer.getCustomerZip();
+
+                    customerInfoHeading.setText("Kunde Informationer");
+
+                    customerInfoIDLabel.setText("Kunde ID: " + customerID);
+                    customerInfoNameLabel.setText("Navn: " + name);
+                    customerInfoEmailLabel.setText("Email: " + email);
+                    customerInfoPhoneLabel.setText("Telefon: " + phone);
+                    customerInfoAddressLabel.setText("Adresse: " + address);
+                    customerInfoPostalCodeLabel.setText("Post nummer: " + zip);
+
+                    customerInfoIDLabel.setVisible(true);
+                    customerInfoHeading.setVisible(true);
+                    customerInfoNameLabel.setVisible(true);
+                    customerInfoEmailLabel.setVisible(true);
+                    customerInfoPhoneLabel.setVisible(true);
+                    customerInfoAddressLabel.setVisible(true);
+                    customerInfoPostalCodeLabel.setVisible(true);
+
                 } else {
-                    messages.errorMessage("Du skal indtaste email eller telefon nummer for kunden du leder efter!");
+                    messages.errorMessage("Du skal indtaste en email, for kunden du leder efter!");
                 }
             }
         });
     }
 
-    private void insertCustomerInfo() {
-        String customerName = customer.getName(customerID);
-
-    }
-
     private void orderBox() {
-        order.createOrder(customerID, boxNumber, date, null);
+        orderController.createOrder(customerID, boxNumber, date, null);
     }
 
     private void initComponents() {
@@ -219,26 +232,14 @@ public class RegisterOrder extends JFrame {
 
         jTabbedPane1.addTab("Ny Kunde", newCustomerPanel);
 
-        searchFieldLabel.setText("Indtast Email eller Telefon Nummer");
+        searchFieldLabel.setText("Indtast Email");
 
         searchButton.setText("Søg Efter Kunde");
 
-        customerInfoNameLabel.setText("Navn: [Name]");
+        createOrderButton.setText("Opret Bestilling");
 
         customerInfoHeading.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        customerInfoHeading.setText("Kunde Informationer");
 
-        customerInfoAddressLabel.setText("Adresse: [Address]");
-
-        customerInfoPostalCodeLabel.setText("Post Nummer: [PostalCode]");
-
-        customerInfoEmailLabel.setText("Email Adresse: [Email]");
-
-        customerInfoPhoneLabel.setText("Telefon Nummer: [Phone]");
-
-        customerInfoIDLabel.setText("Kunde ID: [ID]");
-
-        createOrderButton.setText("Opret Bestilling");
 
         javax.swing.GroupLayout existingCustomerLayout = new javax.swing.GroupLayout(existingCustomer);
         existingCustomer.setLayout(existingCustomerLayout);

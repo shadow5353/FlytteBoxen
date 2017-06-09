@@ -15,6 +15,12 @@ public class CustomerController {
         this.customerModel = db.getCustomer(customerID);
     }
 
+    public CustomerController(String email) {
+        this.db = new DBFacade();
+
+        this.customerModel = db.getCustomer(email);
+    }
+
     public CustomerController() {
         this.db = new DBFacade();
     }
@@ -29,6 +35,10 @@ public class CustomerController {
 
     public void removeCustomer(int customerID) {
         this.db.removeCustomer(customerID);
+    }
+
+    public int getCustomerID() {
+        return this.customerModel.getCustomerID();
     }
 
     public String getCustomerName() {

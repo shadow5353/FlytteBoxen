@@ -9,13 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Customer {
+    private int customerID;
     private String name;
     private String email;
     private String phone;
     private String address;
     private int zip;
 
-    public Customer(String name, String email, String phone, String address, int zip) {
+    public Customer(int customerID, String name, String email, String phone, String address, int zip) {
+        this.customerID = customerID;
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -41,5 +43,9 @@ public class Customer {
 
     public int getZip() {
         return zip;
+    }
+
+    public int getCustomerID() {
+        return customerID;
     }
 }

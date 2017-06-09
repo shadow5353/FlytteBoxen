@@ -101,7 +101,7 @@ public class DBFacade {
 
     public void updateCustomer(int customerID, String name, String address, int zip, String phone, String email) {
         try {
-            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?}");
+            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?)}");
 
             cl.setInt(1, customerID);
             cl.setString(2, name);
@@ -121,7 +121,7 @@ public class DBFacade {
 
     public Customer getCustomer(int customerID) {
         try {
-            CallableStatement cl = this.callableStatement("{call show_CustomerID(?)");
+            CallableStatement cl = this.callableStatement("{call show_CustomerID(?)}");
 
             cl.setInt(1, customerID);
 
@@ -134,7 +134,7 @@ public class DBFacade {
                 String address = rs.getString("fld_Address");
                 int zip = rs.getInt("fld_Zip");
 
-                Customer customer = new Customer(name, email, phone, address, zip);
+                Customer customer = new Customer(customerID, name, email, phone, address, zip);
 
                 return customer;
             } else {
@@ -149,20 +149,21 @@ public class DBFacade {
 
     public Customer getCustomer(String customerEmail) {
         try {
-            CallableStatement cl = this.callableStatement("{call show_CustomerEmail(?)");
+            CallableStatement cl = this.callableStatement("{call show_CustomerEmail(?)}");
 
             cl.setString(1, customerEmail);
 
             ResultSet rs = cl.executeQuery();
 
             if (rs.next()) {
+                int customerID = rs.getInt("fld_CustomerId");
                 String name = rs.getString("fld_Name");
                 String email = rs.getString("fld_Email");
                 String phone = rs.getString("fld_Phone");
                 int zip = rs.getInt("fld_Zip");
                 String address = rs.getString("fld_Address");
 
-                Customer customer = new Customer(name, email, phone, address, zip);
+                Customer customer = new Customer(customerID, name, email, phone, address, zip);
 
                 return customer;
             } else {
@@ -178,31 +179,27 @@ public class DBFacade {
     // Box
 
     public void createBox(int boxID, int size, BigDecimal price, int hallID, int gate) {
-        if (size <= 1 && size >= 6) {
-            try {
-                boolean exists = boxExists(boxID);
+        try {
+            boolean exists = boxExists(boxID);
 
-                if(!(exists)) {
+            if (!(exists)) {
 
-                    CallableStatement cl = this.callableStatement("{call insertBox(?, ?, ?, ?, ?)}");
+                CallableStatement cl = this.callableStatement("{call add_Box(?, ?, ?, ?, ?)}");
 
-                    cl.setInt(1, boxID);
-                    cl.setInt(2, size);
-                    cl.setBigDecimal(3, price);
-                    cl.setInt(4, hallID);
-                    cl.setInt(5, gate);
+                cl.setInt(1, boxID);
+                cl.setInt(2, size);
+                cl.setBigDecimal(3, price);
+                cl.setInt(4, hallID);
+                cl.setInt(5, gate);
 
-                    cl.executeUpdate();
+                cl.executeUpdate();
 
-                } else {
-                    messages.errorMessage("This box: " + boxID + " already exists!");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } else {
+                messages.errorMessage("Boks: " + boxID + " eksistere allerede!");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
 
-        } else {
-            messages.errorMessage("The box size have to be between 1 and 6");
         }
     }
 
@@ -224,7 +221,7 @@ public class DBFacade {
 
     public void removeBox(int boxID) {
         try {
-            CallableStatement cl = this.callableStatement("{call delete_Box(?)");
+            CallableStatement cl = this.callableStatement("{call delete_Box(?)}");
 
             cl.setInt(1, boxID);
 
@@ -309,7 +306,7 @@ public class DBFacade {
     // Hall
 
     public void createHall(int hallID, String description, int zip, String address) {
-        if(!checkExists(hallID)) {
+        if (!checkExists(hallID)) {
             try {
                 CallableStatement cl = this.callableStatement("{call add_Hall(?, ?, ?, ?)}");
 
@@ -335,7 +332,7 @@ public class DBFacade {
     }
 
     public void deleteHall(int hallID) {
-        if(checkExists(hallID)) {
+        if (checkExists(hallID)) {
             try {
                 CallableStatement cl = this.callableStatement("{call delete_Hall(?)}");
 
@@ -360,7 +357,7 @@ public class DBFacade {
 
             ResultSet rs = cl.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 String description = rs.getString("fld_Description");
                 int zip = rs.getInt("fld_Zip");
                 String address = rs.getString("fld_Address");
@@ -378,7 +375,7 @@ public class DBFacade {
 
     public void updateHall(int hallID, String description, int zip, String address) {
         try {
-            if(checkExists(hallID)) {
+            if (checkExists(hallID)) {
                 CallableStatement cl = this.callableStatement("{update_Hall(?, ?, ?, ?)}");
 
                 cl.setInt(1, hallID);
@@ -406,7 +403,7 @@ public class DBFacade {
 
             ResultSet rs = ps.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
                 return true;
             } else {
                 return false;
