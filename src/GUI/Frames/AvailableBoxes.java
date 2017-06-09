@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,17 +50,23 @@ public class AvailableBoxes extends JFrame {
     }
 
     private void generateRows() {
+
         List<Box> availableBoxes = boxController.getAvailableBoxes(size, date);
 
-        for (Box box : availableBoxes) {
-            int boxID = box.getBoxID();
-            BigDecimal price = box.getPrice();
-            int hall = box.getHallID();
-            int gate = box.getGate();
+        if (availableBoxes.isEmpty()) {
+            messages.errorMessage("Der er ingen ledige bokse!");
+        } else {
 
-            Object[] newLine = {boxID, price, hall, gate};
+            for (Box box : availableBoxes) {
+                int boxID = box.getBoxID();
+                BigDecimal price = box.getPrice();
+                int hall = box.getHallID();
+                int gate = box.getGate();
 
-            jtModel.addRow(newLine);
+                Object[] newLine = {boxID, price, hall, gate};
+
+                jtModel.addRow(newLine);
+            }
         }
     }
 

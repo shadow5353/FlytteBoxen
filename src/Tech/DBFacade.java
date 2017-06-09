@@ -282,10 +282,10 @@ public class DBFacade {
     public List<Box> getAvailableBoxes(int size, Date startDate) {
         try {
             List<Box> boxes = new ArrayList<>();
-            CallableStatement cl = this.callableStatement("{call AavailableBoxes(?, ?)}");
+            CallableStatement cl = this.callableStatement("{call availableBoxes(?, ?)}");
 
-            cl.setInt(1, size);
-            cl.setDate(2, startDate);
+            cl.setDate(1, startDate);
+            cl.setInt(2, size);
 
             ResultSet rs = cl.executeQuery();
 
@@ -297,6 +297,8 @@ public class DBFacade {
 
                 boxes.add(new Box(boxNumber, size, price, hallID, gate));
             }
+
+            return boxes;
         } catch (SQLException e) {
             e.printStackTrace();
         }
