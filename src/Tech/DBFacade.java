@@ -290,12 +290,12 @@ public class DBFacade {
             ResultSet rs = cl.executeQuery();
 
             while (rs.next()) {
-                int boxNumer = rs.getInt("fld_BoxId");
+                int boxNumber = rs.getInt("fld_BoxId");
                 BigDecimal price = rs.getBigDecimal("fld_Price");
                 int hallID = rs.getInt("fld_HallId");
                 int gate = rs.getInt("fld_Gate");
 
-                boxes.add(new Box(boxNumer, price, hallID, gate));
+                boxes.add(new Box(boxNumber, size, price, hallID, gate));
             }
         } catch (SQLException e) {
             e.printStackTrace();
