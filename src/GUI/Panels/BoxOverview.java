@@ -1,6 +1,7 @@
 package GUI.Panels;
 
 import Domain.Box;
+import Domain.BoxController;
 import GUI.Frames.EditBox;
 import Tech.Messages;
 
@@ -111,17 +112,10 @@ public class BoxOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Box box = new Box();
+                BoxController bc = new BoxController();
                 int row = boksOverviewTable.getSelectedRow();
                 int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
-                int dialogChoice = ms.confirmMessage("Er du sikker på du vil slette boks nummer " + boxId + " ?");
-                if (dialogChoice == JOptionPane.YES_OPTION) {
-                    box.removeBox(boxId);
-                    jtModel.removeRow(row);
-                    ms.infoMessage("Boks nummer: " + boxId + " er hermed slettet");
-
-                }
-
+                bc.removeBox(boxId);
             }
         });
 

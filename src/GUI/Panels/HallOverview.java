@@ -2,6 +2,7 @@ package GUI.Panels;
 
 
 import Domain.Hall;
+import Domain.HallController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -94,8 +95,11 @@ public class HallOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                Hall hall = new Hall();
-                //TODO Delete hall method
+                HallController hc = new HallController();
+                int row = hallOverviewTable.getSelectedRow();
+                int hallId = Integer.parseInt(hallOverviewTable.getValueAt(row,0).toString());
+                hc.removeHall(hallId);
+
             }
         });
 

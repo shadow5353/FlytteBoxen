@@ -1,6 +1,7 @@
 package GUI.Panels;
 
 import Domain.Customer;
+import Domain.CustomerController;
 import Tech.Messages;
 
 import javax.swing.table.DefaultTableModel;
@@ -101,9 +102,10 @@ public class CustomerOverview extends javax.swing.JPanel {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Customer cust = new Customer();
-                cust.removeCustomer(customerTable.getSelectedRow());
-                //TODO Er du sikker?
+                CustomerController cc = new CustomerController();
+                int row = customerTable.getSelectedRow();
+                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
+                cc.removeCustomer(customerId);
             }
         });
 
