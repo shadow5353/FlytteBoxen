@@ -2,9 +2,7 @@ package GUI.Frames;
 
 import Domain.*;
 import Domain.Box;
-import Tech.DBFacade;
 import Tech.Messages;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

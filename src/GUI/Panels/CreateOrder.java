@@ -9,9 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 
-/**
- * Created by Jacob on 05-06-2017.
- */
+
 public class CreateOrder extends JPanel {
     private JXDatePicker dateField;
     private JLabel dateLabel;
