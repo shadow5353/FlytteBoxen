@@ -26,9 +26,7 @@ public class EditBox extends javax.swing.JFrame {
      * Creates new form EditBox
      */
     public EditBox(int boxId) {
-        BoxController bc = new BoxController();
-
-        this.boxId = boxId;
+        BoxController bc = new BoxController(boxId);
 
         initComponents();
 
@@ -79,7 +77,7 @@ public class EditBox extends javax.swing.JFrame {
                 BoxController bc = new BoxController();
                 bc.updateBox(
                         Integer.parseInt(boksNumberTextField.getText()),
-                        Integer.parseInt(sizeComboBox.getSelectedObjects().toString()),
+                        Integer.parseInt(sizeComboBox.getSelectedItem().toString()),
                         new BigDecimal(priceTextField.getText()),
                         Integer.parseInt(hallNumberTextField.getText()),
                         Integer.parseInt(nearestGateTextField.getText())

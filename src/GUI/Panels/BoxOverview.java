@@ -1,6 +1,6 @@
 package GUI.Panels;
 
-
+import Domain.Box;
 import Domain.BoxController;
 import GUI.Frames.EditBox;
 import Tech.Messages;
@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class BoxOverview extends javax.swing.JPanel {
     private javax.swing.JButton printButton;
@@ -21,18 +23,39 @@ public class BoxOverview extends javax.swing.JPanel {
     private javax.swing.JTable boksOverviewTable;
     private String[] tableColumnName = {"Box ID", "Størrelse", "Pris", "Nærmeste port", "Hall ID"};
     private String[][] tableData;
-    private Messages ms;
+    private Messages messages;
     private DefaultTableModel jtModel;
 
     /**
      * Creates new form BoxOverview
      */
     public BoxOverview() {
+        messages = new Messages();
         initComponents();
+
+        generateRows();
     }
 
     public void generateRows(){
         BoxController bc = new BoxController();
+
+        List<Box> boxes = bc.getBoxes();
+
+        if(boxes.isEmpty()) {
+            messages.errorMessage("Der er ingen bokse!");
+        } else {
+            for (Box box : boxes) {
+                int boxID = box.getBoxID();
+                int size = box.getSize();
+                BigDecimal price = box.getPrice();
+                int hall = box.getHallID();
+                int gate = box.getGate();
+
+                Object[] newLine = {boxID, size, price, gate, hall};
+
+                jtModel.addRow(newLine);
+            }
+        }
 
     }
 
@@ -47,7 +70,6 @@ public class BoxOverview extends javax.swing.JPanel {
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
-        ms = new Messages();
         scrollPane = new javax.swing.JScrollPane();
 
         jtModel = new DefaultTableModel(tableData, tableColumnName) {

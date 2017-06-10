@@ -59,7 +59,7 @@ public class BoxController {
         return db.getAvailableBoxes(size, startDate);
     }
 
-    public List<Box> getAvailableBoxes() {
-        return db.getAvailableBoxes();
+    public List<Box> getBoxes() {
+        return db.getBoxes();
     }
 }

@@ -270,7 +270,7 @@ public class DBFacade {
 
     public Box getBox(int boxID) {
         try {
-            CallableStatement cl = this.callableStatement("{show_Box(?)}");
+            CallableStatement cl = this.callableStatement("{call show_Box(?)}");
 
             cl.setInt(1, boxID);
 
@@ -320,7 +320,7 @@ public class DBFacade {
         return null;
     }
 
-    public List<Box> getAvailableBoxes() {
+    public List<Box> getBoxes() {
         try {
             List<Box> boxes = new ArrayList<>();
             CallableStatement cl = this.callableStatement("{call showAll_Box()}");
