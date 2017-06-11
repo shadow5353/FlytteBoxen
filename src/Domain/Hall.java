@@ -8,12 +8,14 @@ public class Hall {
     private String description;
     private int zip;
     private String address;
+    private String city;
 
-    public Hall(int hallID, String description, int zip, String address) {
+    public Hall(int hallID, String description, int zip, String address, String city) {
         this.hallID = hallID;
         this.description = description;
         this.zip = zip;
         this.address = address;
+        this.city = city;
     }
 
     public int getHallID() {
@@ -30,5 +32,9 @@ public class Hall {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCity() {
+        return city;
     }
 }

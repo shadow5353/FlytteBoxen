@@ -59,6 +59,58 @@ public class BoxOverview extends javax.swing.JPanel {
 
     }
 
+    private void deleteRow() {
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BoxController bc = new BoxController();
+                Messages ms = new Messages();
+                int row = boksOverviewTable.getSelectedRow();
+                int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
+                int answer = ms.confirmMessage("Er du sikker på du vil slette boks " + boxId + " ?");
+                if(answer == JOptionPane.YES_OPTION){
+                    bc.removeBox(boxId);
+                }
+
+            }
+        });
+    }
+
+    private void editRow() {
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = boksOverviewTable.getSelectedRow();
+                int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
+                EditBox eb = new EditBox(boxId);
+                eb.setVisible(true);
+
+            }
+        });
+    }
+
+    private void printTable() {
+        printButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    boksOverviewTable.print();
+                } catch (PrinterException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void exportToFile() {
+        exportTextFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO export table
+            }
+        });
+    }
+
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -106,49 +158,10 @@ public class BoxOverview extends javax.swing.JPanel {
 
         deleteButton.setText("Slet");
 
-        printButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    boksOverviewTable.print();
-                } catch (PrinterException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
-        exportTextFileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO
-            }
-        });
-
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = boksOverviewTable.getSelectedRow();
-                int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
-                EditBox eb = new EditBox(boxId);
-                eb.setVisible(true);
-
-            }
-        });
-
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BoxController bc = new BoxController();
-                Messages ms = new Messages();
-                int row = boksOverviewTable.getSelectedRow();
-                int boxId = Integer.parseInt(boksOverviewTable.getValueAt(row,0).toString());
-                int answer = ms.confirmMessage("Er du sikker på du vil slette boks " + boxId + " ?");
-                if(answer == JOptionPane.YES_OPTION){
-                    bc.removeBox(boxId);
-                }
-
-            }
-        });
+        editRow();
+        deleteRow();
+        printTable();
+        exportToFile();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

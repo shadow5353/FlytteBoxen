@@ -405,7 +405,7 @@ public class DBFacade {
                 int zip = rs.getInt("fld_Zip");
                 String address = rs.getString("fld_Address");
 
-                Hall hall = new Hall(hallID, description, zip, address);
+                Hall hall = new Hall(hallID, description, zip, address, null);
 
                 return hall;
             }
@@ -436,6 +436,32 @@ public class DBFacade {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Hall> getHalls() {
+        try {
+            List<Hall> halls = new ArrayList<>();
+            CallableStatement cl = this.callableStatement("{call ShowAll_Hall()}");
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int hallID = rs.getInt("fld_HallId");
+                String description = rs.getString("fld_Description");
+                int zip = rs.getInt("fld_Zip");
+                String address = rs.getString("fld_Address");
+                String city = rs.getString("fld_City");
+
+                halls.add(new Hall(hallID, description, zip, address, city));
+            }
+
+            return halls;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private boolean checkExists(int hallID) {

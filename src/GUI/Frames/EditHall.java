@@ -1,10 +1,15 @@
 package GUI.Frames;
 
 
-public class EditHall extends javax.swing.JFrame {
+import Domain.HallController;
+import Tech.Messages;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class EditHall extends javax.swing.JFrame {
     private javax.swing.JLabel addressLabel;
-    private javax.swing.JTextField adressTextField;
+    private javax.swing.JTextField addressTextField;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private javax.swing.JLabel hallIdLabel;
@@ -13,12 +18,48 @@ public class EditHall extends javax.swing.JFrame {
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel zipLabel;
     private javax.swing.JTextField zipTextField;
+    private int hallID;
+    private Messages messages;
 
     /**
      * Creates new form editBox
      */
-    public EditHall() {
+    public EditHall(int hallID) {
+        messages = new Messages();
+        this.hallID = hallID;
         initComponents();
+
+        HallController hc = new HallController(hallID);
+
+        String description = hc.getHallDescription();
+        String address = hc.getHallAddress();
+        int zip = hc.getHallZip();
+
+        hallIdTextField.setText("" + hallID);
+        hallIdTextField.setEditable(false);
+        descriptionTextField.setText(description);
+        addressTextField.setText(address);
+        zipTextField.setText("" + zip);
+
+    }
+
+    private void saveHall() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String description = descriptionTextField.getText();
+                    String address = addressTextField.getText();
+                    int zip = Integer.parseInt(zipTextField.getText());
+
+                    HallController hc = new HallController();
+
+                    hc.updateHall(hallID, description, zip, address);
+                } catch (NumberFormatException ex) {
+                    messages.errorMessage("Post Nummer skal indtastet som et tal!");
+                }
+            }
+        });
     }
 
 
@@ -32,13 +73,14 @@ public class EditHall extends javax.swing.JFrame {
         zipLabel = new javax.swing.JLabel();
         zipTextField = new javax.swing.JTextField();
         addressLabel = new javax.swing.JLabel();
-        adressTextField = new javax.swing.JTextField();
+        addressTextField = new javax.swing.JTextField();
         descriptionTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        saveButton.setText("Gem");
+        this.setTitle("Rediger Hal " + hallID);
 
+        saveButton.setText("Gem");
 
         headerLabel.setText("Rediger hall:");
 
@@ -49,6 +91,8 @@ public class EditHall extends javax.swing.JFrame {
         zipLabel.setText("Postnummer:");
 
         addressLabel.setText("Adresse:");
+
+        saveHall();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,7 +113,7 @@ public class EditHall extends javax.swing.JFrame {
                                                         .addComponent(hallIdTextField)
                                                         .addComponent(zipTextField)
                                                         .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(adressTextField))))
+                                                        .addComponent(addressTextField))))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 121, Short.MAX_VALUE)
@@ -96,13 +140,11 @@ public class EditHall extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(addressLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(adressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(addressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(saveButton)
                                 .addContainerGap())
         );
-
-        pack();
     }
 }
 

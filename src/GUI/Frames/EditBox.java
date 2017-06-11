@@ -30,12 +30,33 @@ public class EditBox extends javax.swing.JFrame {
 
         initComponents();
 
+        BigDecimal price = bc.getBoxPrice();
+        int hallNumber = bc.getBoxHall();
+        int gate = bc.getBoxGate();
+
         boksNumberTextField.setText("" + boxId);
-        priceTextField.setText("" + bc.getBoxPrice() );
-        hallNumberTextField.setText(""+ bc.getBoxHall());
-        nearestGateTextField.setText(""+ bc.getBoxGate());
+        boksNumberTextField.setEditable(false);
+        priceTextField.setText("" + price);
+        hallNumberTextField.setText("" + hallNumber);
+        nearestGateTextField.setText("" + gate);
 
+    }
 
+    private void saveBox() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int size = Integer.parseInt(sizeComboBox.getSelectedItem().toString());
+                BigDecimal price = new BigDecimal(priceTextField.getText());
+                int hallID = Integer.parseInt(hallNumberTextField.getText());
+                int gate = Integer.parseInt(nearestGateTextField.getText());
+
+                BoxController bc = new BoxController();
+
+                bc.updateBox(boxId, size, price, hallID, gate);
+
+            }
+        });
     }
 
     private void initComponents() {
@@ -55,6 +76,8 @@ public class EditBox extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        this.setTitle("Rediger Boks " + boxId);
+
         saveButton.setText("Gem");
 
         headerLabel.setText("Rediger boks");
@@ -69,22 +92,9 @@ public class EditBox extends javax.swing.JFrame {
 
         nearestGateLabel.setText("Nærmeste port:");
 
-        sizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6" }));
+        sizeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"1", "2", "3", "4", "5", "6"}));
 
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BoxController bc = new BoxController();
-                bc.updateBox(
-                        Integer.parseInt(boksNumberTextField.getText()),
-                        Integer.parseInt(sizeComboBox.getSelectedItem().toString()),
-                        new BigDecimal(priceTextField.getText()),
-                        Integer.parseInt(hallNumberTextField.getText()),
-                        Integer.parseInt(nearestGateTextField.getText())
-                );
-
-            }
-        });
+        saveBox();
 
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -141,8 +151,8 @@ public class EditBox extends javax.swing.JFrame {
                                 .addComponent(saveButton)
                                 .addContainerGap())
         );
-
-        pack();
     }
+
+
 }
 
