@@ -101,7 +101,7 @@ public class DBFacade {
 
     public void updateCustomer(int customerID, String name, String address, int zip, String phone, String email) {
         try {
-            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?, ?, ?)}");
+            CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?)}");
 
             cl.setInt(1, customerID);
             cl.setString(2, name);
@@ -134,7 +134,7 @@ public class DBFacade {
                 String address = rs.getString("fld_Address");
                 int zip = rs.getInt("fld_Zip");
 
-                Customer customer = new Customer(customerID, name, email, phone, address, zip);
+                Customer customer = new Customer(customerID, name, email, phone, address, zip, null);
 
                 return customer;
             } else {
@@ -163,10 +163,38 @@ public class DBFacade {
                 int zip = rs.getInt("fld_Zip");
                 String address = rs.getString("fld_Address");
 
-                Customer customer = new Customer(customerID, name, email, phone, address, zip);
+                Customer customer = new Customer(customerID, name, email, phone, address, zip, null);
 
                 return customer;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Customer> getAllCustomers() {
+        try {
+            List<Customer> customers = new ArrayList<>();
+
+            CallableStatement cl = this.callableStatement("{call showAll_Customer()}");
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("fld_CustomerId");
+                String name = rs.getString("fld_Name");
+                String address = rs.getString("fld_Address");
+                String phone = rs.getString("fld_Phone");
+                String email = rs.getString("fld_Email");
+                String city = rs.getString("fld_City");
+                int zip = rs.getInt("fld_Zip");
+
+                customers.add(new Customer(customerID, name, email, phone, address, zip, city));
+            }
+
+            return customers;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -394,7 +422,7 @@ public class DBFacade {
 
     public Hall getHall(int hallID) {
         try {
-            CallableStatement cl = this.callableStatement("{show_Hall(?)}");
+            CallableStatement cl = this.callableStatement("{call show_Hall(?)}");
 
             cl.setInt(1, hallID);
 
@@ -419,7 +447,7 @@ public class DBFacade {
     public void updateHall(int hallID, String description, int zip, String address) {
         try {
             if (checkExists(hallID)) {
-                CallableStatement cl = this.callableStatement("{update_Hall(?, ?, ?, ?)}");
+                CallableStatement cl = this.callableStatement("{call update_Hall(?, ?, ?, ?)}");
 
                 cl.setInt(1, hallID);
                 cl.setString(2, description);
@@ -427,8 +455,6 @@ public class DBFacade {
                 cl.setString(4, address);
 
                 cl.executeUpdate();
-
-                messages.infoMessage("Hal " + hallID + " er blevet opdateret!");
             } else {
                 messages.errorMessage("Hal " + hallID + " findes ikke!");
             }
@@ -526,12 +552,6 @@ public class DBFacade {
             cl.setBoolean(7, terminated);
 
             cl.executeUpdate();
-
-            Customer customer = this.getCustomer(customerID);
-
-            String customerName = customer.getName();
-
-            messages.infoMessage("Order number: " + customerID + " for customer: " + customerName + " have been updated!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -573,6 +593,34 @@ public class DBFacade {
             } else {
                 messages.errorMessage("Denne ordre findes ikke!");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public List<Order> getAllOrders() {
+        try {
+            List<Order> orders = new ArrayList<>();
+
+            CallableStatement cl = this.callableStatement("{call showAll_Order()}");
+
+            ResultSet rs = cl.executeQuery();
+
+            while (rs.next()) {
+                int orderID = rs.getInt("fld_OrderId");
+                int customerID = rs.getInt("fld_CustomerId");
+                int boxID = rs.getInt("fld_BoxId");
+                String createdBy = rs.getString("fld_CreatedBy");
+                Date startDate = rs.getDate("fld_StartDate");
+                Date endDdate = rs.getDate("fld_EndDate");
+                boolean terminated = rs.getBoolean("fld_Terminated");
+
+                orders.add(new Order(orderID, customerID, boxID, createdBy, startDate, endDdate, terminated));
+            }
+
+            return orders;
         } catch (SQLException e) {
             e.printStackTrace();
         }
