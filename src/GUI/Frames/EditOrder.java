@@ -1,8 +1,17 @@
 package GUI.Frames;
 
+import Domain.CustomerController;
+import Domain.OrderController;
+import Tech.Messages;
+import org.jdesktop.swingx.JXDatePicker;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
 
 public class EditOrder extends javax.swing.JFrame {
-
     private javax.swing.JLabel boxIdLabel;
     private javax.swing.JTextField boxIdTextField;
     private javax.swing.JLabel createdByLabel;
@@ -10,21 +19,90 @@ public class EditOrder extends javax.swing.JFrame {
     private javax.swing.JLabel customerIdLabel;
     private javax.swing.JTextField customerIdTextField;
     private javax.swing.JLabel endDateLabel;
-    private javax.swing.JTextField endDateTextField;
+    private JXDatePicker endDateTextField;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JLabel orderNumberLabel;
     private javax.swing.JTextField orderNumberTextField;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel startDateLabel;
-    private javax.swing.JTextField startDateTextField;
+    private JXDatePicker startDateTextField;
     private javax.swing.JComboBox<String> terminatedComboBox;
     private javax.swing.JLabel terminatedLabel;
+    private int orderID;
+    private Messages messages;
 
     /**
      * Creates new form EditBox
      */
-    public EditOrder() {
+    public EditOrder(int orderID) {
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
+        messages = new Messages();
+        this.orderID = orderID;
         initComponents();
+
+        insertIntoTextFields();
+    }
+
+    private void insertIntoTextFields() {
+        OrderController orderController = new OrderController(orderID);
+
+        int customerID = orderController.getCustomerId();
+        int boxID = orderController.getBoxId();
+        String createdBy = orderController.getCreatedBy();
+        Date startDate = orderController.getStartDate();
+        Date endDate = orderController.getEndDate();
+        boolean terminated = orderController.getTerminated();
+
+        orderNumberTextField.setText("" + orderID);
+        orderNumberTextField.setEditable(false);
+        customerIdTextField.setText("" + customerID);
+        boxIdTextField.setText("" + boxID);
+        createdByTextField.setText(createdBy);
+        startDateTextField.setDate(startDate);
+        endDateTextField.setDate(endDate);
+
+        if (terminated) {
+            terminatedComboBox.setSelectedItem(0);
+        } else {
+            terminatedComboBox.setSelectedItem(1);
+        }
+
+    }
+
+    private void saveOrder() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int boxID = Integer.parseInt(boxIdTextField.getText());
+                int customerID = Integer.parseInt(customerIdTextField.getText());
+                String createdBy = createdByTextField.getText();
+                Date startDate = new Date(startDateTextField.getDate().getTime());
+                boolean terminated = Boolean.parseBoolean(terminatedComboBox.getSelectedIndex() + "");
+
+                OrderController orderController = new OrderController();
+
+                try {
+                    Date endDate = new Date(endDateTextField.getDate().getTime());
+
+                    orderController.updateOrder(orderID, customerID, boxID, createdBy, startDate, endDate, terminated);
+                } catch (NullPointerException ex) {
+                    orderController.updateOrder(orderID, customerID, boxID, createdBy, startDate, null, terminated);
+                }
+
+                CustomerController customerController = new CustomerController(customerID);
+
+                String customerName = customerController.getCustomerName();
+
+                messages.infoMessage("Ordre Nummer: " + customerID + " for kunde: " + customerName + " er blevet opdateret!");
+
+                dispose();
+            }
+        });
     }
 
     private void initComponents() {
@@ -39,14 +117,14 @@ public class EditOrder extends javax.swing.JFrame {
         createdByLabel = new javax.swing.JLabel();
         createdByTextField = new javax.swing.JTextField();
         startDateLabel = new javax.swing.JLabel();
-        startDateTextField = new javax.swing.JTextField();
+        startDateTextField = new JXDatePicker();
         endDateLabel = new javax.swing.JLabel();
-        endDateTextField = new javax.swing.JTextField();
+        endDateTextField = new JXDatePicker();
         customerIdTextField = new javax.swing.JTextField();
         terminatedLabel = new javax.swing.JLabel();
         terminatedComboBox = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         saveButton.setText("Gem");
 
@@ -67,8 +145,9 @@ public class EditOrder extends javax.swing.JFrame {
 
         terminatedLabel.setText("Opsagt:");
 
-        terminatedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ja", "Nej" }));
+        terminatedComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nej", "Ja" }));
 
+        saveOrder();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,8 +215,6 @@ public class EditOrder extends javax.swing.JFrame {
                                 .addComponent(saveButton)
                                 .addContainerGap())
         );
-
-        pack();
     }
 }
 

@@ -1,9 +1,10 @@
 package GUI.Frames;
 
-
 import Domain.HallController;
 import Tech.Messages;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,6 +26,12 @@ public class EditHall extends javax.swing.JFrame {
      * Creates new form editBox
      */
     public EditHall(int hallID) {
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
         messages = new Messages();
         this.hallID = hallID;
         initComponents();
@@ -55,6 +62,10 @@ public class EditHall extends javax.swing.JFrame {
                     HallController hc = new HallController();
 
                     hc.updateHall(hallID, description, zip, address);
+
+                    messages.infoMessage("Hal " + hallID + " er blevet opdateret!");
+
+                    dispose();
                 } catch (NumberFormatException ex) {
                     messages.errorMessage("Post Nummer skal indtastet som et tal!");
                 }
@@ -75,8 +86,6 @@ public class EditHall extends javax.swing.JFrame {
         addressLabel = new javax.swing.JLabel();
         addressTextField = new javax.swing.JTextField();
         descriptionTextField = new javax.swing.JTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         this.setTitle("Rediger Hal " + hallID);
 

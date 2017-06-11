@@ -1,19 +1,23 @@
 package GUI.Panels;
 
 
+import Domain.Customer;
 import Domain.CustomerController;
 import GUI.Frames.EditCustomer;
 import Tech.Messages;
+import Tech.ModelMethods;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.util.List;
 
 public class CustomerOverview extends javax.swing.JPanel {
 
     private javax.swing.JButton printButton;
-    private javax.swing.JButton exportTextFileButton;
+    private javax.swing.JButton updateButton;
     private javax.swing.JButton editButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel headerLabel;
@@ -22,15 +26,87 @@ public class CustomerOverview extends javax.swing.JPanel {
     private String[] tableColumnName = {"Kundenummer", "Navn", "Adresse", "Postnummer", "By", "Telefon", "E-Mail"};
     private String[][] tableData;
     private DefaultTableModel jtModel;
-    private Messages ms;
+    private Messages messages;
 
 
     public CustomerOverview() {
-
+        messages = new Messages();
 
         initComponents();
     }
 
+    private void generateRows() {
+        CustomerController customerController = new CustomerController();
+
+        List<Customer> customers = customerController.getAllCustomers();
+
+        for(Customer customer : customers) {
+            int customerID = customer.getCustomerID();
+            String name = customer.getName();
+            String address = customer.getAddress();
+            int zip = customer.getZip();
+            String city = customer.getCity();
+            String phone = customer.getPhone();
+            String email = customer.getEmail();
+
+            Object[] newLine = {customerID, name, address, zip, city, phone, email};
+
+            jtModel.addRow(newLine);
+        }
+    }
+
+    private void deleteRow() {
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CustomerController cc = new CustomerController();
+                Messages ms = new Messages();
+                int row = customerTable.getSelectedRow();
+                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
+                int answer = ms.confirmMessage("Er du sikker på du vil slette kunde med kundenummer: " + customerId + " ?");
+                if (answer == JOptionPane.YES_OPTION){
+                    cc.removeCustomer(customerId);
+                }
+
+            }
+        });
+    }
+
+    private void editRow() {
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = customerTable.getSelectedRow();
+                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
+                EditCustomer eb = new EditCustomer(customerId);
+                eb.setVisible(true);
+            }
+        });
+    }
+
+    private void printTable() {
+        printButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    customerTable.print();
+                } catch (PrinterException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void updateTable() {
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ModelMethods.updateOverview(jtModel);
+
+                generateRows();
+            }
+        });
+    }
 
     private void initComponents() {
 
@@ -38,7 +114,7 @@ public class CustomerOverview extends javax.swing.JPanel {
         customerTable = new javax.swing.JTable();
         headerLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
-        exportTextFileButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
 
@@ -70,54 +146,17 @@ public class CustomerOverview extends javax.swing.JPanel {
 
         printButton.setText("Print");
 
-        exportTextFileButton.setText("Exporter til tekstfil");
+        updateButton.setText("Opdater Oversigt");
 
         editButton.setText("Rediger");
 
         deleteButton.setText("Slet");
 
-        printButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    customerTable.print();
-                } catch (PrinterException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        });
-
-        exportTextFileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO
-            }
-        });
-
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = customerTable.getSelectedRow();
-                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
-                EditCustomer eb = new EditCustomer(customerId);
-                eb.setVisible(true);
-            }
-        });
-
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CustomerController cc = new CustomerController();
-                Messages ms = new Messages();
-                int row = customerTable.getSelectedRow();
-                int customerId = Integer.parseInt(customerTable.getValueAt(row,0).toString());
-                int answer = ms.confirmMessage("Er du sikker på du vil slette kunde med kundenummer: " + customerId + " ?");
-                if (answer == JOptionPane.YES_OPTION){
-                    cc.removeCustomer(customerId);
-                }
-
-            }
-        });
+        editRow();
+        printTable();
+        deleteRow();
+        generateRows();
+        updateTable();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -133,7 +172,7 @@ public class CustomerOverview extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(printButton)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(exportTextFileButton)
+                                                .addComponent(updateButton)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(editButton)
                                                 .addGap(18, 18, 18)
@@ -150,7 +189,7 @@ public class CustomerOverview extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(printButton)
-                                        .addComponent(exportTextFileButton)
+                                        .addComponent(updateButton)
                                         .addComponent(editButton)
                                         .addComponent(deleteButton))
                                 .addContainerGap())

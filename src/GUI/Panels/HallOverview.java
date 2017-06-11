@@ -4,6 +4,7 @@ import Domain.Hall;
 import Domain.HallController;
 import GUI.Frames.EditHall;
 import Tech.Messages;
+import Tech.ModelMethods;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class HallOverview extends javax.swing.JPanel {
     private javax.swing.JButton printButton;
-    private javax.swing.JButton exportTextFileButton;
+    private javax.swing.JButton updateButton;
     private javax.swing.JButton editButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel headerLabel;
@@ -70,6 +71,17 @@ public class HallOverview extends javax.swing.JPanel {
         });
     }
 
+    private void updateOverview() {
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ModelMethods.updateOverview(jtModel);
+
+                generateRows();
+            }
+        });
+    }
+
     private void generateRows() {
         HallController hc = new HallController();
 
@@ -99,15 +111,12 @@ public class HallOverview extends javax.swing.JPanel {
         hallOverviewTable = new javax.swing.JTable();
         headerLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
-        exportTextFileButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
 
         jtModel = new javax.swing.table.DefaultTableModel(
-                new Object [][] {
-                        {null, null, null, null, null},
-                        {null, null, null, null, null}
-                },
+                new Object [][] {},
                 new String [] {
                         "Hal ID", "Beskrivelse", "By", "Postnummer", "Adresse"
                 }
@@ -129,7 +138,7 @@ public class HallOverview extends javax.swing.JPanel {
 
         printButton.setText("Print");
 
-        exportTextFileButton.setText("Exporter til tekstfil");
+        updateButton.setText("Opdater Oversigt");
 
         editButton.setText("Rediger");
 
@@ -139,6 +148,7 @@ public class HallOverview extends javax.swing.JPanel {
         editRow();
         deleteRow();
         printTable();
+        updateOverview();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,7 +164,7 @@ public class HallOverview extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(printButton)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(exportTextFileButton)
+                                                .addComponent(updateButton)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(editButton)
                                                 .addGap(18, 18, 18)
@@ -171,7 +181,7 @@ public class HallOverview extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(printButton)
-                                        .addComponent(exportTextFileButton)
+                                        .addComponent(updateButton)
                                         .addComponent(editButton)
                                         .addComponent(deleteButton))
                                 .addContainerGap())

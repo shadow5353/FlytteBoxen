@@ -2,6 +2,8 @@ package GUI.Frames;
 
 import Domain.CustomerController;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,20 +29,44 @@ public class EditCustomer extends javax.swing.JFrame {
      * Creates new form EditBox
      */
     public EditCustomer(int customerId) {
-        CustomerController cc = new CustomerController();
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
         this.customerId = customerId;
+
+        CustomerController cc = new CustomerController(customerId);
         initComponents();
 
         customerIdTextField.setText("" + customerId);
-        adressTextField.setText(""+ cc.getCustomerAddress());
-        zipTextField.setText(""+ cc.getCustomerZip());
-        telephonenumberTextField.setText(""+cc.getCustomerPhone());
-        emailTextField.setText(""+cc.getCustomerEmail());
-        nameTextField.setText(""+cc.getCustomerName());
+        adressTextField.setText("" + cc.getCustomerAddress());
+        zipTextField.setText("" + cc.getCustomerZip());
+        telephonenumberTextField.setText("" + cc.getCustomerPhone());
+        emailTextField.setText("" + cc.getCustomerEmail());
+        nameTextField.setText("" + cc.getCustomerName());
 
     }
 
+    private void saveCustomer() {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CustomerController cc = new CustomerController();
+                cc.updateCustomer(
+                        Integer.parseInt(customerIdTextField.getText()),
+                        nameTextField.getText(),
+                        adressTextField.getText(),
+                        Integer.parseInt(zipTextField.getText()),
+                        telephonenumberTextField.getText(),
+                        emailTextField.getText()
+                );
 
+                dispose();
+            }
+        });
+    }
 
     private void initComponents() {
 
@@ -59,7 +85,7 @@ public class EditCustomer extends javax.swing.JFrame {
         emailTextField = new javax.swing.JTextField();
         nameTextField = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         saveButton.setText("Gem");
 
@@ -77,21 +103,7 @@ public class EditCustomer extends javax.swing.JFrame {
 
         emailLabel.setText("E-mail:");
 
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CustomerController cc = new CustomerController();
-                cc.updateCustomer(
-                            Integer.parseInt(customerIdTextField.getText()),
-                            nameTextField.getText(),
-                            adressTextField.getText(),
-                            Integer.parseInt(zipTextField.getText()),
-                            telephonenumberTextField.getText(),
-                            emailTextField.getText()
-                );
-            }
-        });
-
+        saveCustomer();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -153,8 +165,6 @@ public class EditCustomer extends javax.swing.JFrame {
                                 .addComponent(saveButton)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        pack();
     }
 }
 

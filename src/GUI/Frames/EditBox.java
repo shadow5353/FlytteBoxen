@@ -2,6 +2,7 @@ package GUI.Frames;
 
 import Domain.BoxController;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
@@ -26,6 +27,12 @@ public class EditBox extends javax.swing.JFrame {
      * Creates new form EditBox
      */
     public EditBox(int boxId) {
+        int inset = 50;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds(inset, inset,
+                screenSize.width - inset * 2,
+                screenSize.height - inset * 2);
+
         BoxController bc = new BoxController(boxId);
 
         initComponents();

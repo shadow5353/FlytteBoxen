@@ -2,6 +2,9 @@ package Domain;
 
 import Tech.DBFacade;
 
+import javax.print.attribute.standard.Chromaticity;
+import java.util.List;
+
 /**
  * Created by Jacob on 08-06-2017.
  */
@@ -63,5 +66,13 @@ public class CustomerController {
 
     public int getCustomerZip() {
         return this.customerModel.getZip();
+    }
+
+    public String getCustomerCity() {
+        return this.customerModel.getCity();
+    }
+
+    public List<Customer> getAllCustomers(){
+        return db.getAllCustomers();
     }
 }

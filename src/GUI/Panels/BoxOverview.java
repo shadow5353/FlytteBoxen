@@ -4,6 +4,8 @@ import Domain.Box;
 import Domain.BoxController;
 import GUI.Frames.EditBox;
 import Tech.Messages;
+import Tech.ModelMethods;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -14,7 +16,7 @@ import java.util.List;
 
 public class BoxOverview extends javax.swing.JPanel {
     private javax.swing.JButton printButton;
-    private javax.swing.JButton exportTextFileButton;
+    private javax.swing.JButton updateButton;
     private javax.swing.JButton editButton;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel headerLabel;
@@ -102,11 +104,13 @@ public class BoxOverview extends javax.swing.JPanel {
         });
     }
 
-    private void exportToFile() {
-        exportTextFileButton.addActionListener(new ActionListener() {
+    private void updateOverview() {
+        updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO export table
+                ModelMethods.updateOverview(jtModel);
+
+                generateRows();
             }
         });
     }
@@ -118,7 +122,7 @@ public class BoxOverview extends javax.swing.JPanel {
 
         headerLabel = new javax.swing.JLabel();
         printButton = new javax.swing.JButton();
-        exportTextFileButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         scrollPane = new javax.swing.JScrollPane();
@@ -152,7 +156,7 @@ public class BoxOverview extends javax.swing.JPanel {
 
         printButton.setText("Print");
 
-        exportTextFileButton.setText("Exporter til tekstfil");
+        updateButton.setText("Exporter til tekstfil");
 
         editButton.setText("Rediger");
 
@@ -161,7 +165,7 @@ public class BoxOverview extends javax.swing.JPanel {
         editRow();
         deleteRow();
         printTable();
-        exportToFile();
+        updateOverview();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -177,7 +181,7 @@ public class BoxOverview extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(printButton)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(exportTextFileButton)
+                                                .addComponent(updateButton)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(editButton)
                                                 .addGap(18, 18, 18)
@@ -194,7 +198,7 @@ public class BoxOverview extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(printButton)
-                                        .addComponent(exportTextFileButton)
+                                        .addComponent(updateButton)
                                         .addComponent(editButton)
                                         .addComponent(deleteButton))
                                 .addContainerGap())

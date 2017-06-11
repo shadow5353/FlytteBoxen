@@ -2,6 +2,7 @@ package Domain;
 
 import Tech.DBFacade;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Andersen on 08/06/2017.
@@ -60,6 +61,8 @@ public class OrderController {
         return orderModel.isTerminated();
     }
 
-
+    public List<Order> getAllOrders() {
+        return db.getAllOrders();
+    }
 }
 

@@ -15,14 +15,16 @@ public class Customer {
     private String phone;
     private String address;
     private int zip;
+    private String city;
 
-    public Customer(int customerID, String name, String email, String phone, String address, int zip) {
+    public Customer(int customerID, String name, String email, String phone, String address, int zip, String city) {
         this.customerID = customerID;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
         this.zip = zip;
+        this.city = city;
     }
 
     public String getName() {
@@ -47,5 +49,9 @@ public class Customer {
 
     public int getCustomerID() {
         return customerID;
+    }
+
+    public String getCity() {
+        return city;
     }
 }
