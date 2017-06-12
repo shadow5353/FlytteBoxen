@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
@@ -97,7 +98,7 @@ public class AvailableBoxes extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
+        ImageIcon img = new ImageIcon(getClass().getResource("/Pictures/logo.png"));
 
         this.setIconImage(img.getImage());
 

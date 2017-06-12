@@ -89,6 +89,10 @@ public class EditHall extends javax.swing.JFrame {
 
         this.setTitle("Rediger Hal " + hallID);
 
+        ImageIcon img = new ImageIcon(getClass().getResource("/Pictures/logo.png"));
+
+        this.setIconImage(img.getImage());
+
         saveButton.setText("Gem");
 
         headerLabel.setText("Rediger hall:");

@@ -2,6 +2,7 @@ package GUI.Frames;
 
 import Domain.BoxController;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,6 +83,10 @@ public class EditBox extends javax.swing.JFrame {
         sizeComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ImageIcon img = new ImageIcon(getClass().getResource("/Pictures/logo.png"));
+
+        this.setIconImage(img.getImage());
 
         this.setTitle("Rediger Boks " + boxId);
 

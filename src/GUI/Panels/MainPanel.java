@@ -19,7 +19,7 @@ public class MainPanel extends JPanel {
 
         picture = new javax.swing.JLabel();
 
-        picture.setIcon(new javax.swing.ImageIcon("src/Pictures/flytteboxenLogo.png"));
+        picture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Pictures/logo.png")));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

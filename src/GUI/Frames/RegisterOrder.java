@@ -179,7 +179,7 @@ public class RegisterOrder extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-        ImageIcon img = new ImageIcon("src/Pictures/flytteboxenLogo.png");
+        ImageIcon img = new ImageIcon(getClass().getResource("/Pictures/logo.png"));
 
         this.setIconImage(img.getImage());
 

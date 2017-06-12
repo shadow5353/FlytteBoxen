@@ -68,6 +68,14 @@ public class DBFacade {
 
     // Customer
 
+    /**
+     * Creates a customer
+     * @param name the customers name
+     * @param address the customers address
+     * @param zip the customers zip
+     * @param phone the customers phone
+     * @param email the customers email
+     */
     public void createCustomer(String name, String address, int zip, String phone, String email) {
         try {
             CallableStatement cl = this.callableStatement("{call add_Customer(?, ?, ?, ?, ?)}");
@@ -85,6 +93,10 @@ public class DBFacade {
         }
     }
 
+    /**
+     * Remove the customer
+     * @param customerID the customers customerID
+     */
     public void removeCustomer(int customerID) {
         try {
             CallableStatement cl = this.callableStatement("{call delete_Customer(?)}");
@@ -99,6 +111,15 @@ public class DBFacade {
         }
     }
 
+    /**
+     * Updates a customer
+     * @param customerID the customerID
+     * @param name the customers name
+     * @param address the customers address
+     * @param zip the customers zip
+     * @param phone the customers phone
+     * @param email the customers email
+     */
     public void updateCustomer(int customerID, String name, String address, int zip, String phone, String email) {
         try {
             CallableStatement cl = this.callableStatement("{call update_Customer(?, ?, ?, ?, ?, ?)}");
@@ -112,13 +133,18 @@ public class DBFacade {
 
             cl.executeUpdate();
 
-            messages.infoMessage("Customer " + name + " have been updated!");
+            messages.infoMessage("Kunde " + name + " er blevet opdateret!");
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Gets a customer out from the customerID
+     * @param customerID the customerID
+     * @return an object of the Customer Class
+     */
     public Customer getCustomer(int customerID) {
         try {
             CallableStatement cl = this.callableStatement("{call show_CustomerID(?)}");

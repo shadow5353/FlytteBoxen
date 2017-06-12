@@ -87,6 +87,10 @@ public class EditCustomer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
+        ImageIcon img = new ImageIcon(getClass().getResource("/Pictures/logo.png"));
+
+        this.setIconImage(img.getImage());
+
         saveButton.setText("Gem");
 
         headerLabel.setText("Rediger kunde:");
